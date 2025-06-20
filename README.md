@@ -3,7 +3,7 @@
 ### Backend
 
 ## Introducción
-Se desea desarrollar una plataforma de comercio electrónico (E-commerce).\ 
+Se desea desarrollar una plataforma de comercio electrónico (E-commerce). 
 En esta primera etapa el objetivo es construir el módulo de Órdenes, permitiendo la gestión completa de éstas.
 
 ## Visión General del Producto
