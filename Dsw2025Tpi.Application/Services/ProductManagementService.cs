@@ -21,7 +21,7 @@ public class ProductsManagementService
 
     public async Task<List<Product>?> GetProducts()
     {
-        return await _repository.GetAll<Product>();
+        return (List<Product>?)await _repository.GetAll<Product>();
     }
 
     public async Task<ProductModel.Response> AddProduct(ProductModel.Request request)
