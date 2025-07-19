@@ -1,3 +1,7 @@
+using Dsw2025Tpi.Application.Services;
+using Dsw2025Tpi.Data.Repositories;
+using Dsw2025Tpi.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dsw2025Tpi.Api;
 
@@ -12,8 +16,12 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddDbContext<Dsw2025Tpi.Data.Dsw2025TpiContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
         builder.Services.AddSwaggerGen();
         builder.Services.AddHealthChecks();
+        builder.Services.AddScoped<IRepository, EfRepository>();
+        builder.Services.AddTransient<ProductsManagementService>();
 
         var app = builder.Build();
 
