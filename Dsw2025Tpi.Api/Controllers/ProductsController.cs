@@ -3,7 +3,7 @@ using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dsw2025.Api.Controllers;
+namespace Dsw2025Tpi.Api.Controllers;
 
 [ApiController]
 [Route("api/products")]
