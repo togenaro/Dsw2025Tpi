@@ -2,7 +2,7 @@
 
 public record ProductModel
 {
-    public record Request
+    public record ProductRequest
     (
         string Sku,
         string InternalCode,
@@ -12,9 +12,7 @@ public record ProductModel
         int StockQuantity
     );
 
-    //public record Response(Guid Id);
-
-    public record Response
+    public record ProductResponse
     (
         Guid Id,
         string Sku,
@@ -24,5 +22,14 @@ public record ProductModel
         decimal CurrentUnitPrice,
         int StockQuantity,
         bool IsActive
+    );
+
+    public record ProductUpdate(
+        string Sku,
+        string InternalCode,
+        string Name,
+        string Description,
+        decimal CurrentUnitPrice,
+        int StockQuantity
     );
 }

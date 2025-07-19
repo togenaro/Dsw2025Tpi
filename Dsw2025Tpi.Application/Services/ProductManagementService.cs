@@ -14,17 +14,7 @@ public class ProductsManagementService
         _repository = repository;
     }
 
-    public async Task<Product?> GetProductById(Guid id)
-    {
-        return await _repository.GetById<Product>(id);
-    }
-
-    public async Task<List<Product>?> GetProducts()
-    {
-        return (List<Product>?)await _repository.GetAll<Product>();
-    }
-
-    public async Task<ProductModel.Response> AddProduct(ProductModel.Request request)
+    public async Task<ProductModel.ProductResponse> AddProduct(ProductModel.ProductRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Sku) ||
             string.IsNullOrWhiteSpace(request.Name) ||
@@ -55,7 +45,7 @@ public class ProductsManagementService
 
         await _repository.Add(product);
 
-        return new ProductModel.Response
+        return new ProductModel.ProductResponse
         (
             product.Id,
             product.Sku!,
@@ -67,4 +57,93 @@ public class ProductsManagementService
             product.IsActive
         );
     }
+
+    public async Task<List<ProductModel.ProductResponse>?> GetProducts()
+    {
+        //return (List<Product>?) await _repository.GetAll<Product>();
+
+        var products = await _repository.GetAll<Product>();
+        if (products == null || !products.Any()) return null;
+        return products.Select(p => new ProductModel.ProductResponse
+        (
+            p.Id,
+            p.Sku!,
+            p.InternalCode!,
+            p.Name!,
+            p.Description!,
+            p.CurrentUnitPrice,
+            p.StockQuantity,
+            p.IsActive
+        )).ToList();
+    }
+
+    public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
+    {
+        //return await _repository.GetById<Product>(id);
+        var product = await _repository.GetById<Product>(id);
+        if (product == null) return null;
+        return new ProductModel.ProductResponse
+        (
+            product.Id,
+            product.Sku!,
+            product.InternalCode!,
+            product.Name!,
+            product.Description!,
+            product.CurrentUnitPrice,
+            product.StockQuantity,
+            product.IsActive
+        );
+    }
+
+    public async Task<ProductModel.ProductResponse> UpdateProduct(Guid id, ProductModel.ProductUpdate update)
+    {
+        var product = await _repository.GetById<Product>(id);
+
+        if (product == null)
+            throw new KeyNotFoundException("Producto no encontrado.");
+
+        // Validaciones básicas
+        if (string.IsNullOrWhiteSpace(update.Sku) ||
+            string.IsNullOrWhiteSpace(update.Name) ||
+            string.IsNullOrWhiteSpace(update.InternalCode) ||
+            update.CurrentUnitPrice <= 0 ||
+            update.StockQuantity < 0)
+        {
+            throw new ArgumentException("Datos inválidos para actualizar el producto.");
+        }
+
+        // Asignación de campos
+        product.Sku = update.Sku;
+        product.InternalCode = update.InternalCode;
+        product.Name = update.Name;
+        product.Description = update.Description;
+        product.CurrentUnitPrice = update.CurrentUnitPrice;
+        product.StockQuantity = update.StockQuantity;
+
+        await _repository.Update(product);
+
+        return new ProductModel.ProductResponse(
+            product.Id,
+            product.Sku!,
+            product.InternalCode!,
+            product.Name!,
+            product.Description!,
+            product.CurrentUnitPrice,
+            product.StockQuantity,
+            product.IsActive
+        );
+    }
+
+    public async Task InactivateProduct(Guid id)
+    {
+        var product = await _repository.GetById<Product>(id);
+
+        if (product == null)
+            throw new KeyNotFoundException("Producto no encontrado.");
+
+        product.IsActive = false;
+
+        await _repository.Update(product);
+    }
+
 }
