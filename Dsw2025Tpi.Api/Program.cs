@@ -44,7 +44,6 @@ public class Program
         app.MapControllers();
         
         app.MapHealthChecks("/healthcheck");
-        app.UseDeveloperExceptionPage();
         app.Run();
     }
 }
