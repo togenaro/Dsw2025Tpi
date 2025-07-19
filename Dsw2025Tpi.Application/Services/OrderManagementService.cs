@@ -7,6 +7,7 @@ using Dsw2025Tpi.Domain.Interfaces;
 using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dsw2025Tpi.Application.Services;
 
@@ -85,5 +86,92 @@ public class OrderManagementService
         );
     }
 
+    public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter filter)
+    {
+        var query = _repository.Query<Order>();
+
+        if (filter.Status is not null)
+            query = query.Where(o => o.Status == filter.Status);
+
+        if (filter.CustomerId is not null)
+            query = query.Where(o => o.CustomerId == filter.CustomerId);
+
+        var skip = (filter.PageNumber - 1) * filter.PageSize;
+
+        var orders = await query
+            .Skip(skip)
+            .Take(filter.PageSize)
+            .Include(o => o.Items)
+            .ToListAsync();
+
+        return orders.Select(o => new OrderModel.OrderResponse(
+            o.Id,
+            o.CustomerId,
+            o.ShippingAddress,
+            o.BillingAddress,
+            o.TotalAmount,
+            o.Items.Select(i => new OrderModel.OrderItem(
+                i.ProductId,
+                i.Quantity,
+                i.Name,
+                i.Description,
+                i.UnitPrice
+            )).ToList()
+        )).ToList();
+    }
+
+    public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
+    {
+        var order = await _repository
+            .Query<Order>()
+            .Include(o => o.Items)
+            .FirstOrDefaultAsync(o => o.Id == id);
+
+        if (order is null) return null;
+
+        return new OrderModel.OrderResponse(
+            order.Id,
+            order.CustomerId,
+            order.ShippingAddress,
+            order.BillingAddress,
+            order.TotalAmount,
+            order.Items.Select(i => new OrderModel.OrderItem(
+                i.ProductId,
+                i.Quantity,
+                i.Name,
+                i.Description,
+                i.UnitPrice
+            )).ToList()
+        );
+    }
+
+    public async Task<OrderModel.OrderResponse> UpdateOrderStatus(Guid id, string newStatus)
+    {
+        var order = await _repository.GetById<Order>(id);
+
+        if (order is null)
+            throw new KeyNotFoundException($"Orden con ID {id} no encontrada.");
+
+        if (!Enum.TryParse<OrderStatus>(newStatus, true, out var parsedStatus))
+            throw new ArgumentException("Estado de orden no válido.");
+
+        order.Status = parsedStatus;
+        await _repository.Update(order);
+
+        return new OrderModel.OrderResponse(
+            order.Id,
+            order.CustomerId,
+            order.ShippingAddress,
+            order.BillingAddress,
+            order.TotalAmount,
+            order.Items.Select(i => new OrderModel.OrderItem(
+                i.ProductId,
+                i.Quantity,
+                i.Name,
+                i.Description,
+                i.UnitPrice
+            )).ToList()
+        );
+    }
 
 }

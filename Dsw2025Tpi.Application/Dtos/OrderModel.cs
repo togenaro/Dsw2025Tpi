@@ -1,4 +1,6 @@
-﻿namespace Dsw2025Tpi.Application.Dtos;
+﻿using Dsw2025Tpi.Domain.Entities;
+
+namespace Dsw2025Tpi.Application.Dtos;
 
 public record OrderModel
 {
@@ -25,4 +27,13 @@ public record OrderModel
         decimal TotalAmount,
         List<OrderItem> OrderItems
     );
+
+    public record OrderSearchFilter(
+        OrderStatus? Status,
+        Guid? CustomerId,
+        int PageNumber = 1,
+        int PageSize = 10
+    );
+
+    public record OrderStatusUpdate(string NewStatus);
 }

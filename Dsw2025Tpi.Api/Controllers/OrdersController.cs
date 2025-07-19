@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Dsw2025Tpi.Domain.Entities;
 
 namespace Dsw2025Tpi.Api.Controllers;
 
@@ -10,6 +11,8 @@ namespace Dsw2025Tpi.Api.Controllers;
 [Route("api/orders")]
 public class OrdersController : ControllerBase
 {
+    #region Inyección del servicio
+
     private readonly OrderManagementService _service;
 
     public OrdersController(OrderManagementService service)
@@ -17,7 +20,11 @@ public class OrdersController : ControllerBase
         _service = service;
     }
 
-    [HttpPost]
+    #endregion
+
+    #region Endpoints
+
+    [HttpPost] // Sexto endpoint
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel.OrderRequest request)
     {
         try
@@ -35,11 +42,54 @@ public class OrdersController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+
+    [HttpGet] // Septimo endpoint
+    public async Task<IActionResult> GetOrders(
+        [FromQuery] OrderStatus? status,
+        [FromQuery] Guid? customerId,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var filter = new OrderModel.OrderSearchFilter(status, customerId, pageNumber, pageSize);
+        var result = await _service.GetOrders(filter);
+
+        if (result is null || result.Count == 0)
+            return NoContent();
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")] // Octavo endpoint
     public async Task<IActionResult> GetOrderById(Guid id)
     {
-        // Se implementará en el próximo endpoint
-        return Ok();
+        var result = await _service.GetOrderById(id);
+
+        if (result is null)
+            return NotFound();
+
+        return Ok(result);
     }
+
+
+    [HttpPut("{id}/status")] // Noveno endpoint
+    public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderModel.OrderStatusUpdate request)
+    {
+        try
+        {
+            var result = await _service.UpdateOrderStatus(id, request.NewStatus);
+            return Ok(result);
+        }
+        catch (ArgumentException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+
+    #endregion
 }
 
