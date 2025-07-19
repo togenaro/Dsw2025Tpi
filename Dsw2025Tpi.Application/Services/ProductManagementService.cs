@@ -28,7 +28,10 @@ public class ProductsManagementService
     {
         if (string.IsNullOrWhiteSpace(request.Sku) ||
             string.IsNullOrWhiteSpace(request.Name) ||
-            request.Price < 0)
+            string.IsNullOrWhiteSpace(request.InternalCode) ||
+            request.CurrentUnitPrice <= 0 ||
+            request.StockQuantity < 0
+            )
         {
             throw new ArgumentException("Valores para el producto no válidos");
         }
@@ -36,8 +39,32 @@ public class ProductsManagementService
         var exist = await _repository.First<Product>(p => p.Sku == request.Sku);
         if (exist != null) throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
 
-        var product = new Product(request.Sku, request.Name, request.Price);
+        /*var product = new Product(request.Sku, request.Name, request.CurrentUnitPrice);
         await _repository.Add(product);
-        return new ProductModel.Response(product.Id);
+        return new ProductModel.Response(product.Id);*/
+
+        var product = new Product
+        (
+            request.Sku,
+            request.InternalCode,
+            request.Name,
+            request.Description,
+            request.CurrentUnitPrice,
+            request.StockQuantity
+        );
+
+        await _repository.Add(product);
+
+        return new ProductModel.Response
+        (
+            product.Id,
+            product.Sku!,
+            product.InternalCode!,
+            product.Name!,
+            product.Description!,
+            product.CurrentUnitPrice,
+            product.StockQuantity,
+            product.IsActive
+        );
     }
 }

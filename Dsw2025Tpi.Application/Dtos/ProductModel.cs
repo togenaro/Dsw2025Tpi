@@ -2,7 +2,27 @@
 
 public record ProductModel
 {
-    public record Request(string Sku, string Name, decimal Price);
+    public record Request
+    (
+        string Sku,
+        string InternalCode,
+        string Name,
+        string Description,
+        decimal CurrentUnitPrice,
+        int StockQuantity
+    );
 
-    public record Response(Guid Id);
+    //public record Response(Guid Id);
+
+    public record Response
+    (
+        Guid Id,
+        string Sku,
+        string InternalCode,
+        string Name,
+        string Description,
+        decimal CurrentUnitPrice,
+        int StockQuantity,
+        bool IsActive
+    );
 }
