@@ -1,0 +1,62 @@
+[
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000001",
+        "name": "Juan Pérez",
+        "email": "juan.perez@example.com",
+        "phoneNumber": "+54 9 381 111111"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000002",
+        "name": "María Gómez",
+        "email": "maria.gomez@example.com",
+        "phoneNumber": "+54 9 381 222222"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000003",
+        "name": "Carlos Díaz",
+        "email": "carlos.diaz@example.com",
+        "phoneNumber": "+54 9 381 333333"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000004",
+        "name": "Lucía Fernández",
+        "email": "lucia.fernandez@example.com",
+        "phoneNumber": "+54 9 381 444444"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000005",
+        "name": "Santiago López",
+        "email": "santiago.lopez@example.com",
+        "phoneNumber": "+54 9 381 555555"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000006",
+        "name": "Ana Torres",
+        "email": "ana.torres@example.com",
+        "phoneNumber": "+54 9 381 666666"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000007",
+        "name": "Martín Castro",
+        "email": "martin.castro@example.com",
+        "phoneNumber": "+54 9 381 777777"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000008",
+        "name": "Valentina Ruiz",
+        "email": "valentina.ruiz@example.com",
+        "phoneNumber": "+54 9 381 888888"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000009",
+        "name": "Diego Morales",
+        "email": "diego.morales@example.com",
+        "phoneNumber": "+54 9 381 999999"
+    },
+    {
+        "id": "e1b94fa4-bb7d-4cde-901d-000000000010",
+        "name": "Florencia Rivas",
+        "email": "florencia.rivas@example.com",
+        "phoneNumber": "+54 9 381 101010"
+    }
+]
