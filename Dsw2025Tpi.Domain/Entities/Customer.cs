@@ -8,7 +8,25 @@ namespace Dsw2025Tpi.Domain.Entities;
 
 public class Customer : EntityBase
 {
-    public string Name { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string PhoneNumber { get; set; } = null!;
+    #region Relaciones con otras entidades
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    #endregion
+
+    #region Propiedades propias de la entidad
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+    public string? PhoneNumber { get; set; }
+    #endregion
+
+    #region Constructor por defecto necesario para EF Core
+    public Customer()
+    {
+    }
+    public Customer(string name, string email, string phoneNumber)
+    {
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+    }
+    #endregion
 }
