@@ -4,7 +4,6 @@ namespace Dsw2025Tpi.Domain.Entities;
 
 public class Product : EntityBase
 {
-
     #region Relaciones con otras entidades
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
     #endregion
@@ -37,7 +36,5 @@ public class Product : EntityBase
     #endregion
 
     // public Guid? CategoryId { get; set; }
-
     // public Category? Category { get; set; }
-
 }

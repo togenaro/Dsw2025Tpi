@@ -1,4 +1,6 @@
-﻿namespace Dsw2025Tpi.Domain.Entities;
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace Dsw2025Tpi.Domain.Entities;
 
 public abstract class EntityBase
 {
@@ -6,5 +8,9 @@ public abstract class EntityBase
     {
         Id = Guid.NewGuid();
     }
-    public Guid Id { get; }
+
+    // El constructor ejecuta Guid.NewGuid(), pero ese valor se
+    // descarta inmediatamente porque luego System.Text.Json lo pisa con el valor del archivo.
+
+    public Guid Id { get; set; }
 }

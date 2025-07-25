@@ -23,7 +23,7 @@ public class Program
         builder.Services.AddDbContext<Dsw2025Tpi.Data.Dsw2025TpiContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        builder.Services.AddScoped<IRepository, InMemoryRepository>();
+        builder.Services.AddSingleton<IRepository, InMemoryRepository>();
 
         builder.Services.AddSwaggerGen();
 

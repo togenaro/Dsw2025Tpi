@@ -11,7 +11,6 @@ namespace Dsw2025Tpi.Api.Controllers;
 public class ProductsController : ControllerBase
 {
     #region Inyección de los servicios
-
     private readonly ProductsManagementService _service;
 
     public ProductsController(ProductsManagementService service)
