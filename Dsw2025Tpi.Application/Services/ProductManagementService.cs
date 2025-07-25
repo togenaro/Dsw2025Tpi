@@ -64,7 +64,9 @@ public class ProductsManagementService
 
         var products = await _repository.GetAll<Product>();
         if (products == null || !products.Any()) return null;
-        return products.Select(p => new ProductModel.ProductResponse
+        return products
+            .Where(p => p.IsActive)
+            .Select(p => new ProductModel.ProductResponse
         (
             p.Id,
             p.Sku!,
