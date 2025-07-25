@@ -1,0 +1,102 @@
+[
+    {
+        "Id": "d12a2041-bb5e-4f5e-83b5-df001eaf1aa1",
+        "Sku": "P001",
+        "InternalCode": "INT-001",
+        "Name": "Taladro Inalámbrico",
+        "Description": "Taladro portátil de 18V con batería de litio",
+        "CurrentUnitPrice": 12500.50,
+        "StockQuantity": 15,
+        "IsActive": true
+    },
+    {
+        "Id": "f6f6e274-fb74-45f2-80fa-fc4c7582b00d",
+        "Sku": "P002",
+        "InternalCode": "INT-002",
+        "Name": "Amoladora Angular",
+        "Description": "Amoladora de 750W para corte y desbaste",
+        "CurrentUnitPrice": 8900.00,
+        "StockQuantity": 10,
+        "IsActive": true
+    },
+    {
+        "Id": "70f21811-6ac7-40f8-88ee-45ef7f45bde9",
+        "Sku": "P003",
+        "InternalCode": "INT-003",
+        "Name": "Cinta Métrica",
+        "Description": "Cinta métrica de 5 metros con bloqueo automático",
+        "CurrentUnitPrice": 1200.99,
+        "StockQuantity": 30,
+        "IsActive": true
+    },
+    {
+        "Id": "e463f10c-2d4a-4df9-9807-6e22fd30244e",
+        "Sku": "P004",
+        "InternalCode": "INT-004",
+        "Name": "Nivel Láser",
+        "Description": "Nivel láser autonivelante para trabajos de precisión",
+        "CurrentUnitPrice": 15250.75,
+        "StockQuantity": 8,
+        "IsActive": true
+    },
+    {
+        "Id": "87125aaf-e3b7-46c3-8322-9c3d34977be2",
+        "Sku": "P005",
+        "InternalCode": "INT-005",
+        "Name": "Martillo de Uña",
+        "Description": "Martillo con mango antideslizante de 16 oz",
+        "CurrentUnitPrice": 2850.00,
+        "StockQuantity": 50,
+        "IsActive": true
+    },
+    {
+        "Id": "3d7e8c15-3ed1-4ac5-b0b0-6e9f875a49a5",
+        "Sku": "P006",
+        "InternalCode": "INT-006",
+        "Name": "Juego de Llaves Allen",
+        "Description": "Set de llaves Allen métricas de 10 piezas",
+        "CurrentUnitPrice": 1600.20,
+        "StockQuantity": 40,
+        "IsActive": true
+    },
+    {
+        "Id": "1234b2f2-2d19-4aa2-bef7-5e4cd9f4b1b5",
+        "Sku": "P007",
+        "InternalCode": "INT-007",
+        "Name": "Caja de Herramientas",
+        "Description": "Caja organizadora plástica con compartimientos",
+        "CurrentUnitPrice": 3450.00,
+        "StockQuantity": 20,
+        "IsActive": true
+    },
+    {
+        "Id": "74c2a5dd-f7f6-4418-842d-2f4055b8c2d1",
+        "Sku": "P008",
+        "InternalCode": "INT-008",
+        "Name": "Destornillador Eléctrico",
+        "Description": "Destornillador recargable con puntas intercambiables",
+        "CurrentUnitPrice": 6350.99,
+        "StockQuantity": 12,
+        "IsActive": true
+    },
+    {
+        "Id": "8f0579f4-0f2e-4fc7-abc0-f2bce74beef2",
+        "Sku": "P009",
+        "InternalCode": "INT-009",
+        "Name": "Cinta Aisladora",
+        "Description": "Cinta aislante negra resistente al calor",
+        "CurrentUnitPrice": 350.75,
+        "StockQuantity": 100,
+        "IsActive": true
+    },
+    {
+        "Id": "ec4ddc7e-2e8a-4b18-92aa-f347984c1f2f",
+        "Sku": "P010",
+        "InternalCode": "INT-010",
+        "Name": "Sierra Caladora",
+        "Description": "Sierra eléctrica para corte en madera y metal",
+        "CurrentUnitPrice": 10400.00,
+        "StockQuantity": 6,
+        "IsActive": true
+    }
+]
