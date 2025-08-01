@@ -87,21 +87,22 @@ public class ProductsManagementService
     {
         //return await _repository.GetById<Product>(id);
         var product = await _repository.GetById<Product>(id);
-        if (product == null) return null;
-        return new ProductModel.ProductResponse
-        (
-            product.Id,
-            product.Sku!,
-            product.InternalCode!,
-            product.Name!,
-            product.Description!,
-            product.CurrentUnitPrice,
-            product.StockQuantity,
-            product.IsActive
-        );
+        if (product == null || !product.IsActive) return null;
+
+            return new ProductModel.ProductResponse
+            (
+                product.Id,
+                product.Sku!,
+                product.InternalCode!,
+                product.Name!,
+                product.Description!,
+                product.CurrentUnitPrice,
+                product.StockQuantity,
+                product.IsActive
+            );
     }
 
-    public async Task<ProductModel.ProductResponse> UpdateProduct(Guid id, ProductModel.ProductUpdate update)
+    public async Task<ProductModel.ProductResponse> UpdateProduct(Guid id, ProductModel.ProductRequest update)
     {
         var product = await _repository.GetById<Product>(id);
 
