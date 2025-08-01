@@ -24,7 +24,8 @@ public record ProductModel
         bool IsActive
     );
 
-    public record ProductUpdate(
+    public record ProductUpdate
+    (
         string Sku,
         string InternalCode,
         string Name,
