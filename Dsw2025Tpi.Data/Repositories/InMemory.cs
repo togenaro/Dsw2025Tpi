@@ -2,6 +2,7 @@
 using Dsw2025Tpi.Domain.Interfaces;
 using System.Linq.Expressions;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Dsw2025Tpi.Data.Repositories;
 
@@ -14,6 +15,8 @@ private List<Order>? _orders;
     public InMemoryRepository()
     {
         LoadProducts();
+        LoadCustomers();
+        LoadOrders();
     }
 
     private List<T> GetList<T>() where T : EntityBase
@@ -91,6 +94,27 @@ private List<Order>? _orders;
             PropertyNameCaseInsensitive = true
         });
     }
+
+    public void LoadCustomers()
+    {
+        var json = File.ReadAllText("..//Dsw2025Tpi.Data/Sources/customers.json");
+        _customers = JsonSerializer.Deserialize<List<Customer>>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+    }
+
+    public void LoadOrders()
+    {
+        var json = File.ReadAllText("..//Dsw2025Tpi.Data/Sources/orders.json");
+        _orders = JsonSerializer.Deserialize<List<Order>>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter(null, allowIntegerValues: false) }
+        });
+
+    }
+
 }
 
 
