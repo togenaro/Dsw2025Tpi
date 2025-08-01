@@ -27,10 +27,11 @@ public class OrdersController : ControllerBase
     [HttpPost] // Sexto endpoint
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel.OrderRequest request)
     {
-        try
+        var order = await _service.CreateOrder(request);
+        return Created($"api/orders/{order.OrderId}", order);
+        /*try
         {
-            var result = await _service.CreateOrder(request);
-            return CreatedAtAction(nameof(GetOrderById), new { id = result.OrderId }, result);
+
         }
         catch (ArgumentException ae)
         {
@@ -39,7 +40,7 @@ public class OrdersController : ControllerBase
         catch (Exception)
         {
             return Problem("Ocurrió un error al crear la orden.");
-        }
+        }*/
     }
 
 
@@ -55,8 +56,7 @@ public class OrdersController : ControllerBase
         //var filter = new OrderModel.OrderSearchFilter(/*status, customerId, pageNumber, pageSize*/);
         var result = await _service.GetOrders();
 
-        if (result is null || result.Count == 0)
-            return NoContent();
+        if (result is null || result.Count == 0) return NoContent();
 
         return Ok(result);
     }
@@ -91,7 +91,9 @@ public class OrdersController : ControllerBase
     [HttpPut("{id}/status")] // Noveno endpoint
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderModel.OrderStatusUpdate request)
     {
-        try
+        var result = await _service.UpdateOrderStatus(id, request.NewStatus);
+        return Ok(result);
+        /*try
         {
             var result = await _service.UpdateOrderStatus(id, request.NewStatus);
             return Ok(result);
@@ -103,7 +105,7 @@ public class OrdersController : ControllerBase
         catch (KeyNotFoundException)
         {
             return NotFound();
-        }
+        }*/
     }
 
 
