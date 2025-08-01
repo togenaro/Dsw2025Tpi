@@ -63,12 +63,12 @@ public class ProductsController : ControllerBase
     {
         var product = await _service.GetProductById(id);
         if (product == null) return NotFound(); // 404
-        return Ok(product); // 20
+        return Ok(product); // 200
     }
 
 
-    /*[HttpPut("{id}")] // Cuarto endpoint
-    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductUpdate request)
+    [HttpPut("{id}")] // Cuarto endpoint
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
         try
         {
@@ -87,10 +87,10 @@ public class ProductsController : ControllerBase
         {
             return Problem("Error al actualizar el producto"); // 500
         }
-    }*/
+    }
 
 
-    /*[HttpPatch("{id}")] // Quinto endpoint
+    [HttpPatch("{id}")] // Quinto endpoint
     // Como no hay cuerpo de solicitud(PATCH sin payload),
     // no hace falta crear un DTO específico para esto.
     public async Task<IActionResult> InactivateProduct(Guid id)
@@ -108,7 +108,7 @@ public class ProductsController : ControllerBase
         {
             return Problem("Error al intentar inhabilitar el producto"); // 500
         }
-    }*/
+    }
 
     #endregion
 }
