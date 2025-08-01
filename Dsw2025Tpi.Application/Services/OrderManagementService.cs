@@ -21,6 +21,14 @@ public class OrderManagementService
 
     public async Task<OrderModel.OrderResponse> CreateOrder(OrderModel.OrderRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.CustomerId.ToString()) ||
+            string.IsNullOrWhiteSpace(request.ShippingAddress) ||
+            string.IsNullOrWhiteSpace(request.BillingAddress) 
+            // ... queda pendiente la validación para la lista de productos en la orden
+            )
+        {
+            throw new ArgumentException("Valores para la orden no válidos");
+        }
         // Verificar existencia del cliente
         var customer = await _repository.GetById<Customer>(request.CustomerId);
         if (customer == null)
@@ -150,7 +158,7 @@ public class OrderManagementService
     public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
     {
         var order = await _repository.GetById<Order>(id);
-        if (order == null) return null;
+        if (order == null) throw new KeyNotFoundException("Orden no encontrada."); 
         return new OrderModel.OrderResponse(
         order.Id,
         order.CustomerId,

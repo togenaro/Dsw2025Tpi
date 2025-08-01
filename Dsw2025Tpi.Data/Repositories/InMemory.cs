@@ -30,6 +30,7 @@ private List<Order>? _orders;
     private void SetList<T>(List<T> list) where T : EntityBase
     {
         if (typeof(T) == typeof(Product)) _products = list as List<Product>;
+        else if (typeof(T) == typeof(Order)) _orders = list as List<Order>;
         else throw new NotSupportedException($"Tipo {typeof(T).Name} no soportado en InMemory.");
     }
 
