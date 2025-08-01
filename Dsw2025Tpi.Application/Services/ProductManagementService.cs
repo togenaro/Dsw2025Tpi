@@ -1,7 +1,8 @@
-﻿using Dsw2025Tpi.Application.Dtos;
+﻿using Azure.Core;
+using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Exceptions;
-using Dsw2025Tpi.Domain.Interfaces;
 using Dsw2025Tpi.Domain.Entities;
+using Dsw2025Tpi.Domain.Interfaces;
 
 namespace Dsw2025Tpi.Application.Services;
 
@@ -87,9 +88,13 @@ public class ProductsManagementService
     {
         //return await _repository.GetById<Product>(id);
         var product = await _repository.GetById<Product>(id);
-        if (product == null || !product.IsActive) return null;
+        if(product == null || !product.IsActive)
+        {
+            throw new KeyNotFoundException("Producto no encontrado.");
+        }
 
-            return new ProductModel.ProductResponse
+
+        return new ProductModel.ProductResponse
             (
                 product.Id,
                 product.Sku!,

@@ -41,6 +41,9 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseMiddleware<Dsw2025Tpi.Api.Middlewares.ExceptionHandlingMiddleware>();
+
+
         app.UseAuthorization();
 
         app.MapControllers();
