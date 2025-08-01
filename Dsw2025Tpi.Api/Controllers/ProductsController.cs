@@ -25,11 +25,15 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
     // Dado el parámetro "ProductRequest" se crea una instancia del mismo tipo con ayuda del atributo [FromBody]
     {
-        try
+        var product = await _service.AddProduct(request);
+        return Created($"api/products/{product.Id}", product);
+
+        /*try
         {
             var product = await _service.AddProduct(request);
-            //return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
             return Created($"api/products/{product.Id}", product);
+            //return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+
             //return Created(string.Empty, product);
 
             //return Ok(product);
@@ -45,7 +49,7 @@ public class ProductsController : ControllerBase
         catch (Exception)
         {
             return Problem("Se produjo un error al guardar el producto");
-        }
+        }*/
     }
 
 
@@ -70,10 +74,11 @@ public class ProductsController : ControllerBase
     [HttpPut("{id}")] // Cuarto endpoint
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
-        try
+        var result = await _service.UpdateProduct(id, request);
+        return Ok(result); // 200 OK con el producto actualizado
+        /*try
         {
-            var result = await _service.UpdateProduct(id, request);
-            return Ok(result); // 200 OK con el producto actualizado
+
         }
         catch (KeyNotFoundException knf)
         {
@@ -86,7 +91,7 @@ public class ProductsController : ControllerBase
         catch (Exception)
         {
             return Problem("Error al actualizar el producto"); // 500
-        }
+        }*/
     }
 
 
@@ -95,10 +100,11 @@ public class ProductsController : ControllerBase
     // no hace falta crear un DTO específico para esto.
     public async Task<IActionResult> InactivateProduct(Guid id)
     {
-        try
+        await _service.InactivateProduct(id);
+        return NoContent(); // 204
+        /*try
         {
-            await _service.InactivateProduct(id);
-            return NoContent(); // 204
+
         }
         catch (KeyNotFoundException knf)
         {
@@ -107,7 +113,7 @@ public class ProductsController : ControllerBase
         catch (Exception)
         {
             return Problem("Error al intentar inhabilitar el producto"); // 500
-        }
+        }*/
     }
 
     #endregion
