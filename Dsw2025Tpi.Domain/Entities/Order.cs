@@ -43,8 +43,6 @@ public class Order : EntityBase
     // Del ejercicio 15:
     // public ICollection<Product> Products { get; } = new HashSet<Product>(); 
     // public List<OrderItem> Items { get; set; } = new();
-
-
 }
 
 

@@ -43,8 +43,25 @@ public class OrdersController : ControllerBase
     }
 
 
-    [HttpGet] // Septimo endpoint
-    public async Task<IActionResult> GetOrders(
+
+    [HttpGet]// Septimo endpoint
+    public async Task<IActionResult> GetOrders( 
+                                                /*OrderStatus? status,
+                                                Guid? customerId,
+                                                int pageNumber = 1,
+                                                int pageSize = 10*/
+                                               )
+    {
+        //var filter = new OrderModel.OrderSearchFilter(/*status, customerId, pageNumber, pageSize*/);
+        var result = await _service.GetOrders();
+
+        if (result is null || result.Count == 0)
+            return NoContent();
+
+        return Ok(result);
+    }
+
+    /*public async Task<IActionResult> GetOrders(
         [FromQuery] OrderStatus? status,
         [FromQuery] Guid? customerId,
         [FromQuery] int pageNumber = 1,
@@ -57,7 +74,7 @@ public class OrdersController : ControllerBase
             return NoContent();
 
         return Ok(result);
-    }
+    }*/
 
     [HttpGet("{id}")] // Octavo endpoint
     public async Task<IActionResult> GetOrderById(Guid id)

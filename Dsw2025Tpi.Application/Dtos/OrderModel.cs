@@ -25,6 +25,7 @@ public record OrderModel
         string ShippingAddress,
         string BillingAddress,
         decimal TotalAmount,
+        string Notes,
         List<OrderItem> OrderItems
     );
 

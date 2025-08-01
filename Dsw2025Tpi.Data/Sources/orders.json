@@ -1,0 +1,81 @@
+[
+    {
+        "id": "6dfb2a57-4b1e-41cb-9b70-1dc4420c8caa",
+        "customerId": "00000000-0000-0000-0000-000000000001",
+        "shippingAddress": "Av. Mitre 123",
+        "billingAddress": "Av. Mitre 123",
+        "notes": "Entrega urgente",
+        "status": "PROCESSING",
+        "items": [
+            {
+                "productId": "10000000-0000-0000-0000-000000000001",
+                "quantity": 2,
+                "unitPrice": 4500.00
+            },
+            {
+                "productId": "10000000-0000-0000-0000-000000000002",
+                "quantity": 1,
+                "unitPrice": 3100.00
+            }
+        ]
+    },
+    {
+        "id": "2b7e6e18-0c90-4b61-a5cd-ecbddbdd02f7",
+        "customerId": "00000000-0000-0000-0000-000000000002",
+        "shippingAddress": "Calle 25 de Mayo 456",
+        "billingAddress": "Calle 25 de Mayo 456",
+        "notes": "Sin apuro",
+        "status": "PENDING",
+        "items": [
+            {
+                "productId": "10000000-0000-0000-0000-000000000003",
+                "quantity": 3,
+                "unitPrice": 1200.00
+            }
+        ]
+    },
+    {
+        "id": "f9a4433b-5656-48e7-bf6e-d5c1a88c306c",
+        "customerId": "00000000-0000-0000-0000-000000000003",
+        "shippingAddress": "Ruta 9 km 1200",
+        "billingAddress": "Ruta 9 km 1200",
+        "notes": "",
+        "status": "SHIPPED",
+        "items": [
+            {
+                "productId": "10000000-0000-0000-0000-000000000001",
+                "quantity": 1,
+                "unitPrice": 4500.00
+            }
+        ]
+    },
+    {
+        "id": "b19d5d9c-d91f-4eb1-9e62-c4bbf379c3ff",
+        "customerId": "00000000-0000-0000-0000-000000000004",
+        "shippingAddress": "Belgrano 789",
+        "billingAddress": "Belgrano 789",
+        "notes": "Llamar antes de entregar",
+        "status": "DELIVERED",
+        "items": [
+            {
+                "productId": "10000000-0000-0000-0000-000000000004",
+                "quantity": 5,
+                "unitPrice": 1800.00
+            },
+            {
+                "productId": "10000000-0000-0000-0000-000000000005",
+                "quantity": 2,
+                "unitPrice": 2200.00
+            }
+        ]
+    },
+    {
+        "id": "caab5821-1d3a-4b29-81c4-3ed239ffed84",
+        "customerId": "00000000-0000-0000-0000-000000000005",
+        "shippingAddress": "San Martín 1010",
+        "billingAddress": "San Martín 1010",
+        "notes": "Cliente habitual",
+        "status": "CANCELLED",
+        "items": []
+    }
+]

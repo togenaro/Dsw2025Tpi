@@ -76,6 +76,7 @@ public class OrderManagementService
             order.ShippingAddress,
             order.BillingAddress,
             order.TotalAmount,
+            order.Notes,
             order.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
@@ -86,7 +87,33 @@ public class OrderManagementService
         );
     }
 
-    public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter filter)
+    public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter? filter = null)
+    {
+        //return (List<Product>?) await _repository.GetAll<Product>();
+
+        var orders = await _repository.GetAll<Order>();
+        if (orders == null || !orders.Any()) return null;
+
+        return orders.Select(o => new OrderModel.OrderResponse(
+            o.Id,
+            o.CustomerId,
+            o.ShippingAddress,
+            o.BillingAddress,
+            o.TotalAmount,
+            o.Notes,
+            o.Items.Select(i => new OrderModel.OrderItem(
+                i.ProductId,
+                i.Quantity,
+                i.Name,
+                i.Description,
+                i.UnitPrice
+            )).ToList()
+        )).ToList();
+    }
+
+
+    // OPCION 1
+    /*public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter filter)
     {
         var query = _repository.Query<Order>();
 
@@ -118,8 +145,30 @@ public class OrderManagementService
                 i.UnitPrice
             )).ToList()
         )).ToList();
-    }
+    }*/
 
+    public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
+    {
+        var order = await _repository.GetById<Order>(id);
+        if (order == null) return null;
+        return new OrderModel.OrderResponse(
+        order.Id,
+        order.CustomerId,
+        order.ShippingAddress,
+        order.BillingAddress,
+        order.TotalAmount,
+        order.Notes,
+        order.Items.Select(i => new OrderModel.OrderItem(
+            i.ProductId,
+            i.Quantity,
+            i.Name,
+            i.Description,
+            i.UnitPrice
+        )).ToList()
+        );
+    }
+    
+    /*
     public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
     {
         var order = await _repository
@@ -143,7 +192,7 @@ public class OrderManagementService
                 i.UnitPrice
             )).ToList()
         );
-    }
+    }*/
 
     public async Task<OrderModel.OrderResponse> UpdateOrderStatus(Guid id, string newStatus)
     {
@@ -164,6 +213,7 @@ public class OrderManagementService
             order.ShippingAddress,
             order.BillingAddress,
             order.TotalAmount,
+            order.Notes,
             order.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
