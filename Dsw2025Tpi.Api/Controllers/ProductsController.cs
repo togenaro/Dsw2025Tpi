@@ -22,12 +22,16 @@ public class ProductsController : ControllerBase
     #region Endpoints
 
     [HttpPost()] // Primer endpoint
-    public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request)
+    public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
+    // Dado el parámetro "ProductRequest" se crea una instancia del mismo tipo con ayuda del atributo [FromBody]
     {
         try
         {
             var product = await _service.AddProduct(request);
-            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+            //return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+            return Created($"api/products/{product.Id}", product);
+            //return Created(string.Empty, product);
+
             //return Ok(product);
         }
         catch (ArgumentException ae)
@@ -63,7 +67,7 @@ public class ProductsController : ControllerBase
     }
 
 
-    [HttpPut("{id}")] // Cuarto endpoint
+    /*[HttpPut("{id}")] // Cuarto endpoint
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductUpdate request)
     {
         try
@@ -83,10 +87,10 @@ public class ProductsController : ControllerBase
         {
             return Problem("Error al actualizar el producto"); // 500
         }
-    }
+    }*/
 
 
-    [HttpPatch("{id}")] // Quinto endpoint
+    /*[HttpPatch("{id}")] // Quinto endpoint
     // Como no hay cuerpo de solicitud(PATCH sin payload),
     // no hace falta crear un DTO específico para esto.
     public async Task<IActionResult> InactivateProduct(Guid id)
@@ -104,7 +108,7 @@ public class ProductsController : ControllerBase
         {
             return Problem("Error al intentar inhabilitar el producto"); // 500
         }
-    }
+    }*/
 
     #endregion
 }

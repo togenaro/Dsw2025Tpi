@@ -35,6 +35,7 @@ public class ProductsManagementService
 
         var product = new Product
         (
+            // El Guid se crea mediante el constructor de la clase base "Entitybase".
             request.Sku,
             request.InternalCode,
             request.Name,
@@ -64,19 +65,22 @@ public class ProductsManagementService
 
         var products = await _repository.GetAll<Product>();
         if (products == null || !products.Any()) return null;
-        return products
-            .Where(p => p.IsActive)
+        return products.Where(p => p.IsActive)?
             .Select(p => new ProductModel.ProductResponse
-        (
-            p.Id,
-            p.Sku!,
-            p.InternalCode!,
-            p.Name!,
-            p.Description!,
-            p.CurrentUnitPrice,
-            p.StockQuantity,
-            p.IsActive
-        )).ToList();
+            // A cada producto activo resultante del filtro anterior, lo transforma (proyecta)
+            // en un nuevo objeto ProductResponse.
+            (
+                p.Id,
+                p.Sku!,
+                p.InternalCode!,
+                p.Name!,
+                p.Description!,
+                p.CurrentUnitPrice,
+                p.StockQuantity,
+                p.IsActive
+            )).ToList();
+            // Notá que estás usando ! para ignorar posibles advertencias de nulabilidad
+            // (Sku!, Name!, etc.). Eso le dice al compilador: “confío en que esto no es null”.
     }
 
     public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
