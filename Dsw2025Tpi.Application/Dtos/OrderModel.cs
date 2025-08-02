@@ -7,8 +7,8 @@ public record OrderModel
     public record OrderItem(
         Guid ProductId,
         int Quantity,
-        string Name,
-        string Description,
+        //string Name,
+        //string Description,
         decimal CurrentUnitPrice
     );
 

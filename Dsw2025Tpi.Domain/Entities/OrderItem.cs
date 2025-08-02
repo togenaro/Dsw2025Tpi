@@ -9,10 +9,10 @@ namespace Dsw2025Tpi.Domain.Entities;
 public class OrderItem : EntityBase
 {
     #region Relaciones con otras entidades
-    public Guid? ProductId { get; set; } // FK
+    public Guid ProductId { get; set; } // FK
     public Product? Product { get; set; } // Navigation property
 
-    public Guid? OrderId { get; set; } // FK
+    public Guid OrderId { get; set; } // FK
     public Order? Order { get; set; } // Navigation property
     #endregion
 
