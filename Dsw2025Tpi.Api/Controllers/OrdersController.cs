@@ -11,6 +11,7 @@ namespace Dsw2025Tpi.Api.Controllers;
 [Route("api/orders")]
 public class OrdersController : ControllerBase
 {
+
     #region Inyección del servicio
 
     private readonly OrderManagementService _service;
@@ -22,8 +23,7 @@ public class OrdersController : ControllerBase
 
     #endregion
 
-    #region Endpoints
-
+    #region Endpoint N°5
     [HttpPost] // Sexto endpoint
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel.OrderRequest request)
     {
@@ -42,15 +42,15 @@ public class OrdersController : ControllerBase
             return Problem("Ocurrió un error al crear la orden.");
         }*/
     }
+    #endregion
 
-
-
-    [HttpGet]// Septimo endpoint
-    public async Task<IActionResult> GetOrders( 
-                                                /*OrderStatus? status,
-                                                Guid? customerId,
-                                                int pageNumber = 1,
-                                                int pageSize = 10*/
+    #region Endpoint N°7
+    [HttpGet]
+    public async Task<IActionResult> GetOrders(
+                                               /*OrderStatus? status,
+                                               Guid? customerId,
+                                               int pageNumber = 1,
+                                               int pageSize = 10*/
                                                )
     {
         //var filter = new OrderModel.OrderSearchFilter(/*status, customerId, pageNumber, pageSize*/);
@@ -75,8 +75,10 @@ public class OrdersController : ControllerBase
 
         return Ok(result);
     }*/
+    #endregion
 
-    [HttpGet("{id}")] // Octavo endpoint
+    #region Endpoint N°8
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(Guid id)
     {
         var result = await _service.GetOrderById(id);
@@ -86,8 +88,9 @@ public class OrdersController : ControllerBase
 
         return Ok(result);
     }
+    #endregion
 
-
+    #region Endpoint N°9
     [HttpPut("{id}/status")] // Noveno endpoint
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderModel.OrderStatusUpdate request)
     {
@@ -107,8 +110,7 @@ public class OrdersController : ControllerBase
             return NotFound();
         }*/
     }
-
-
     #endregion
+
 }
 

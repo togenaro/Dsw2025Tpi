@@ -10,6 +10,7 @@ namespace Dsw2025Tpi.Api.Controllers;
 [Route("api/products")]
 public class ProductsController : ControllerBase
 {
+    
     #region Inyección de los servicios
     private readonly ProductsManagementService _service;
 
@@ -19,9 +20,8 @@ public class ProductsController : ControllerBase
     }
     #endregion
 
-    #region Endpoints
-
-    [HttpPost()] // Primer endpoint
+    #region Endpoint N°1
+    [HttpPost()] 
     public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
     // Dado el parámetro "ProductRequest" se crea una instancia del mismo tipo con ayuda del atributo [FromBody]
     {
@@ -51,17 +51,19 @@ public class ProductsController : ControllerBase
             return Problem("Se produjo un error al guardar el producto");
         }*/
     }
+    #endregion
 
-
-    [HttpGet()] // Segundo endpoint
+    #region Endpoint N°2
+    [HttpGet()] 
     public async Task<IActionResult> GetProducts()
     {
         var products = await _service.GetProducts();
         if (products == null || !products.Any()) return NoContent(); // 204
         return Ok(products); // 200
     }
+    #endregion
 
-
+    #region Endpoint N°3
     [HttpGet("{id}")] // Tercer endpoint
     public async Task<IActionResult> GetProductById(Guid id)
     {
@@ -69,8 +71,9 @@ public class ProductsController : ControllerBase
         if (product == null) return NotFound(); // 404
         return Ok(product); // 200
     }
+    #endregion
 
-
+    #region Endpoint N°4
     [HttpPut("{id}")] // Cuarto endpoint
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
@@ -93,8 +96,9 @@ public class ProductsController : ControllerBase
             return Problem("Error al actualizar el producto"); // 500
         }*/
     }
+    #endregion
 
-
+    #region Endpoint N°5
     [HttpPatch("{id}")] // Quinto endpoint
     // Como no hay cuerpo de solicitud(PATCH sin payload),
     // no hace falta crear un DTO específico para esto.
@@ -115,6 +119,6 @@ public class ProductsController : ControllerBase
             return Problem("Error al intentar inhabilitar el producto"); // 500
         }*/
     }
-
     #endregion
+
 }
