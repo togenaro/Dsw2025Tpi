@@ -9,7 +9,7 @@ namespace Dsw2025Tpi.Domain.Entities;
 public class Order : EntityBase
 {
     #region Propiedades de las relaciones
-    public Guid CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
     public Customer? Customer { get; set; }
 
     public virtual ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
