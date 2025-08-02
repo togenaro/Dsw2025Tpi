@@ -53,10 +53,11 @@ public class OrderManagementService
             var orderItem = new OrderItem
             {
                 ProductId = item.ProductId,
-                Name = item.Name,
-                Description = item.Description,
+                //Name = item.Name,
+                //Description = item.Description,
                 UnitPrice = item.CurrentUnitPrice,
-                Quantity = item.Quantity
+                Quantity = item.Quantity,
+
             };
 
             orderItems.Add(orderItem);
@@ -69,7 +70,7 @@ public class OrderManagementService
             Customer = customer,
             ShippingAddress = request.ShippingAddress,
             BillingAddress = request.BillingAddress,
-            Notes = null, // Se puede ampliar si lo agregás en el Request
+            Notes = request.Notes, // Se puede ampliar si lo agregás en el Request
             Date = DateTime.UtcNow,
             Status = OrderStatus.PENDING,
             TotalAmount = total,
@@ -88,8 +89,8 @@ public class OrderManagementService
             order.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
-                i.Name,
-                i.Description,
+                //i.Name,
+                //i.Description,
                 i.UnitPrice
             )).ToList()
         );
@@ -112,8 +113,8 @@ public class OrderManagementService
             o.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
-                i.Name,
-                i.Description,
+                //i.Name,
+                //i.Description,
                 i.UnitPrice
             )).ToList()
         )).ToList();
@@ -169,8 +170,8 @@ public class OrderManagementService
         order.Items.Select(i => new OrderModel.OrderItem(
             i.ProductId,
             i.Quantity,
-            i.Name,
-            i.Description,
+            //i.Name,
+            //i.Description,
             i.UnitPrice
         )).ToList()
         );
@@ -225,8 +226,8 @@ public class OrderManagementService
             order.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
-                i.Name,
-                i.Description,
+                //i.Name,
+                //i.Description,
                 i.UnitPrice
             )).ToList()
         );

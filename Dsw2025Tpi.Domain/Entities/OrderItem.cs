@@ -17,8 +17,6 @@ public class OrderItem : EntityBase
     #endregion
 
     #region Propiedades propias de la entidad
-    public string? Name { get; set; }
-    public string? Description { get; set; }
     public decimal UnitPrice { get; set; }
     public int Quantity { get; set; }
     public decimal Subtotal => UnitPrice * Quantity;
@@ -32,8 +30,8 @@ public class OrderItem : EntityBase
     {
         ProductId = productId;
         OrderId = orderId;
-        Name = name;
-        Description = description;
+        //Name = name;
+        //Description = description;
         UnitPrice = unitPrice;
         Quantity = quantity;
     }

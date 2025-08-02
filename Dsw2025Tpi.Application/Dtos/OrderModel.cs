@@ -7,8 +7,6 @@ public record OrderModel
     public record OrderItem(
         Guid ProductId,
         int Quantity,
-        string Name,
-        string Description,
         decimal CurrentUnitPrice
     );
 
@@ -16,6 +14,7 @@ public record OrderModel
         Guid CustomerId,
         string ShippingAddress,
         string BillingAddress,
+        string? Notes,
         List<OrderItem> OrderItems
     );
 
