@@ -82,11 +82,6 @@ private List<Order>? _orders;
         return await Task.FromResult(entity);
     }
 
-    public IQueryable<T> Query<T>() where T : EntityBase
-    {
-        return GetList<T>().AsQueryable();
-    }
-
     public void LoadProducts()
     {
         var json = File.ReadAllText("..//Dsw2025Tpi.Data/Sources/products.json");

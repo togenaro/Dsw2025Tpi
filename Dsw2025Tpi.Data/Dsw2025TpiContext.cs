@@ -25,11 +25,11 @@ public class Dsw2025TpiContext: DbContext
             // Por ejemplo, en este caso, la propiedad "Id" de la clase "EntityBase" es detectada como clave primaria.
             eb.ToTable("Products");
             eb.Property(p => p.Sku)
-              .IsRequired()
-              .HasMaxLength(20);
+              .HasMaxLength(20)
+              .IsRequired();
             eb.Property(p => p.Name)
-              .IsRequired()
-              .HasMaxLength(45);
+              .HasMaxLength(45)
+              .IsRequired();
             eb.Property(p => p.InternalCode)
               .IsRequired()
               .HasMaxLength(45);
@@ -64,6 +64,7 @@ public class Dsw2025TpiContext: DbContext
             eb.Property(o => o.Status)
               .HasDefaultValue(OrderStatus.PENDING) // Establece el estado por defecto como PENDING.
               .IsRequired();
+            eb.Ignore(o => o.TotalAmount); // Ignora la propiedad TotalAmount, ya que es calculada y no se almacena en la base de datos.
         });
         #endregion
 
@@ -77,6 +78,7 @@ public class Dsw2025TpiContext: DbContext
             eb.Property(oi => oi.Quantity)
               .IsRequired()
               .HasDefaultValue(0);
+            eb.Ignore(oi => oi.Subtotal); // Ignora la propiedad Subtotal, ya que es calculada y no se almacena en la base de datos.
         });
         #endregion
 
