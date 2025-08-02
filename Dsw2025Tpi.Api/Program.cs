@@ -20,15 +20,16 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddDomainServices(builder.Configuration);
-        builder.Services.AddDbContext<Dsw2025Tpi.Data.Dsw2025TpiContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        builder.Services.AddSingleton<IRepository, InMemoryRepository>();
+        //builder.Services.AddSingleton<IRepository, InMemoryRepository>();
 
         builder.Services.AddSwaggerGen();
 
 
         builder.Services.AddHealthChecks();
+
+        builder.Services.AddDomainServices(builder.Configuration);
+
 
         var app = builder.Build();
 

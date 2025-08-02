@@ -21,6 +21,7 @@ public static class DomainServicesConfigurationExtension
             {
                 ((Dsw2025TpiContext)c).Seedwork<Product>("Sources\\products.json");
                 ((Dsw2025TpiContext)c).Seedwork<Customer>("Sources\\customers.json");
+                ((Dsw2025TpiContext)c).Seedwork<Order>("Sources\\orders.json");
             });
         });
 
