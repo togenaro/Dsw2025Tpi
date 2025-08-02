@@ -71,9 +71,4 @@ public class EfRepository: IRepository
         return includedQuery;
     }
 
-    public IQueryable<T> Query<T>() where T : EntityBase
-    {
-        return _context.Set<T>().AsQueryable();
-    }
-
 }
