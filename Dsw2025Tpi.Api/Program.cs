@@ -84,7 +84,7 @@ public class Program
             });
 
         builder.Services.AddDomainServices(builder.Configuration);
-
+        builder.Services.AddSingleton<JwtTokenService>();
 
         var app = builder.Build();
 
