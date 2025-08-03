@@ -77,7 +77,6 @@ public class Program
         app.UseMiddleware<Dsw2025Tpi.Api.Middlewares.ExceptionHandlingMiddleware>();
 
 
-        app.UseAuthentication(); 
         app.UseAuthorization();
 
         app.MapControllers();
