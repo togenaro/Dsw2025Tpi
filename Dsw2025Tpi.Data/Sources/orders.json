@@ -1,81 +1,92 @@
 [
-    {
-        "id": "6dfb2a57-4b1e-41cb-9b70-1dc4420c8caa",
-        "customerId": "00000000-0000-0000-0000-000000000001",
-        "shippingAddress": "Av. Mitre 123",
-        "billingAddress": "Av. Mitre 123",
-        "notes": "Entrega urgente",
-        "status": "PROCESSING",
-        "items": [
-            {
-                "productId": "10000000-0000-0000-0000-000000000001",
-                "quantity": 2,
-                "unitPrice": 4500.00
-            },
-            {
-                "productId": "10000000-0000-0000-0000-000000000002",
-                "quantity": 1,
-                "unitPrice": 3100.00
-            }
-        ]
-    },
-    {
-        "id": "2b7e6e18-0c90-4b61-a5cd-ecbddbdd02f7",
-        "customerId": "00000000-0000-0000-0000-000000000002",
-        "shippingAddress": "Calle 25 de Mayo 456",
-        "billingAddress": "Calle 25 de Mayo 456",
-        "notes": "Sin apuro",
-        "status": "PENDING",
-        "items": [
-            {
-                "productId": "10000000-0000-0000-0000-000000000003",
-                "quantity": 3,
-                "unitPrice": 1200.00
-            }
-        ]
-    },
-    {
-        "id": "f9a4433b-5656-48e7-bf6e-d5c1a88c306c",
-        "customerId": "00000000-0000-0000-0000-000000000003",
-        "shippingAddress": "Ruta 9 km 1200",
-        "billingAddress": "Ruta 9 km 1200",
-        "notes": "",
-        "status": "SHIPPED",
-        "items": [
-            {
-                "productId": "10000000-0000-0000-0000-000000000001",
-                "quantity": 1,
-                "unitPrice": 4500.00
-            }
-        ]
-    },
-    {
-        "id": "b19d5d9c-d91f-4eb1-9e62-c4bbf379c3ff",
-        "customerId": "00000000-0000-0000-0000-000000000004",
-        "shippingAddress": "Belgrano 789",
-        "billingAddress": "Belgrano 789",
-        "notes": "Llamar antes de entregar",
-        "status": "DELIVERED",
-        "items": [
-            {
-                "productId": "10000000-0000-0000-0000-000000000004",
-                "quantity": 5,
-                "unitPrice": 1800.00
-            },
-            {
-                "productId": "10000000-0000-0000-0000-000000000005",
-                "quantity": 2,
-                "unitPrice": 2200.00
-            }
-        ]
-    },
-    {
-        "id": "caab5821-1d3a-4b29-81c4-3ed239ffed84",
-        "customerId": "00000000-0000-0000-0000-000000000005",
-        "shippingAddress": "San Martín 1010",
-        "billingAddress": "San Martín 1010",
-        "notes": "Cliente habitual",
-        "status": "CANCELLED",
-        "items": []
-    }
+  {
+    "id": "ee98eaec-cb74-4e76-9e19-fd08b759daf2",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000003",
+    "date": "2025-07-28T00:34:45.567495Z",
+    "shippingAddress": "San Mart\u00edn 1010",
+    "billingAddress": "San Mart\u00edn 1010",
+    "notes": "Cliente habitual",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "a11e70ea-e2af-42cd-bb33-638bd84a81a1",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000008",
+    "date": "2025-07-29T00:34:45.567495Z",
+    "shippingAddress": "Belgrano 2020",
+    "billingAddress": "Belgrano 2020",
+    "notes": "Requiere factura A",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "2e384690-83c4-4674-97ac-a0d2fe5765b9",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000004",
+    "date": "2025-07-25T00:34:45.567495Z",
+    "shippingAddress": "Lavalle 3030",
+    "billingAddress": "Lavalle 3030",
+    "notes": "Entrega urgente",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "55057aec-38bb-4a79-9af8-7209df32c46e",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000005",
+    "date": "2025-08-03T00:34:45.567495Z",
+    "shippingAddress": "Mitre 4040",
+    "billingAddress": "Mitre 4040",
+    "notes": "Nuevo cliente",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "1872107b-1a02-425d-8a22-c1d082ee6e8a",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000005",
+    "date": "2025-08-01T00:34:45.567495Z",
+    "shippingAddress": "Rivadavia 5050",
+    "billingAddress": "Rivadavia 5050",
+    "notes": "Solicita contacto previo",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "f0dbe57b-f563-4268-a429-41ccd8ba038e",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000002",
+    "date": "2025-07-29T00:34:45.567495Z",
+    "shippingAddress": "Sarmiento 6060",
+    "billingAddress": "Sarmiento 6060",
+    "notes": "Atenci\u00f3n especial",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "4e1853a6-63bc-4010-8f65-95fa8a573b1d",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000008",
+    "date": "2025-07-27T00:34:45.567495Z",
+    "shippingAddress": "Entre R\u00edos 7070",
+    "billingAddress": "Entre R\u00edos 7070",
+    "notes": "Pago en efectivo",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "2a101f59-2260-4c44-b9ec-e961e3b713b6",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000006",
+    "date": "2025-08-03T00:34:45.567495Z",
+    "shippingAddress": "Catamarca 8080",
+    "billingAddress": "Catamarca 8080",
+    "notes": "Entregar a portero",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "107e6a2a-c8e1-4d25-8492-4a98aebc76cf",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000003",
+    "date": "2025-07-27T00:34:45.567495Z",
+    "shippingAddress": "Corrientes 9090",
+    "billingAddress": "Corrientes 9090",
+    "notes": "Cliente mayorista",
+    "orderstatus": "PENDING"
+  },
+  {
+    "id": "2215fe7b-c7f6-4857-bab5-f68465db5510",
+    "customerId": "e1b94fa4-bb7d-4cde-901d-000000000009",
+    "date": "2025-08-01T00:34:45.567495Z",
+    "shippingAddress": "Tucum\u00e1n 1000",
+    "billingAddress": "Tucum\u00e1n 1000",
+    "notes": "Compra mensual",
+    "orderstatus": "PENDING"
+  }
 ]

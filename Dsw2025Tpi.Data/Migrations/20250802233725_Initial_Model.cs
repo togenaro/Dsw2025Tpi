@@ -32,8 +32,8 @@ namespace Dsw2025Tpi.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Sku = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     InternalCode = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CurrentUnitPrice = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: false),
                     StockQuantity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
@@ -52,7 +52,7 @@ namespace Dsw2025Tpi.Data.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
                     ShippingAddress = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: true),
                     BillingAddress = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>

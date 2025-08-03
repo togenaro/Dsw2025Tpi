@@ -28,14 +28,14 @@ public class Dsw2025TpiContext: DbContext
               .HasMaxLength(20)
               .IsRequired();
             eb.Property(p => p.Name)
-              .HasMaxLength(45)
+              .HasMaxLength(100)
               .IsRequired();
             eb.Property(p => p.InternalCode)
               .IsRequired()
               .HasMaxLength(45);
             eb.Property(p => p.Description)
               .IsRequired()
-              .HasMaxLength(45);
+              .HasMaxLength(100);
             eb.Property(p => p.CurrentUnitPrice)
               .IsRequired()
               .HasPrecision(15,2); // 15 digitos en total, de los cuales 2 son decimales.  
@@ -60,7 +60,7 @@ public class Dsw2025TpiContext: DbContext
             eb.Property(o => o.BillingAddress)
               .HasMaxLength(45);
             eb.Property(o => o.Notes)
-              .HasMaxLength(100);
+              .HasMaxLength(200);
             eb.Property(o => o.Status)
               .HasDefaultValue(OrderStatus.PENDING) // Establece el estado por defecto como PENDING.
               .IsRequired();
