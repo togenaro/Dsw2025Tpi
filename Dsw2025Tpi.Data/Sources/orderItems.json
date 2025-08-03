@@ -1,0 +1,16 @@
+[
+  {
+    "id": "a4799ef5-8e0b-404d-ae2e-63b749bc0535",
+    "orderId": "ee98eaec-cb74-4e76-9e19-fd08b759daf2",
+    "productId": "d12a2041-bb5e-4f5e-83b5-df001eaf1aa1",
+    "quantity": 3,
+    "unitPrice": 420
+  },
+  {
+    "id": "9eb449aa-9e73-43e6-9837-1b97a07f4ab4",
+    "orderId": "ee98eaec-cb74-4e76-9e19-fd08b759daf2",
+    "productId": "f6f6e274-fb74-45f2-80fa-fc4c7582b00d",
+    "quantity": 3,
+    "unitPrice": 1000
+  }
+]
