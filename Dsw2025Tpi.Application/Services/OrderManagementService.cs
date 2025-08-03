@@ -69,7 +69,7 @@ public class OrderManagementService
             Customer = customer,
             ShippingAddress = request.ShippingAddress,
             BillingAddress = request.BillingAddress,
-            Notes = null, // Se puede ampliar si lo agregás en el Request
+            Notes = request.Notes, // Se puede ampliar si lo agregás en el Request
             Date = DateTime.UtcNow,
             Status = OrderStatus.PENDING,
             TotalAmount = total,

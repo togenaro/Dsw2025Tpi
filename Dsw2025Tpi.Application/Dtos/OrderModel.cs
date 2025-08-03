@@ -16,6 +16,7 @@ public record OrderModel
         Guid CustomerId,
         string ShippingAddress,
         string BillingAddress,
+        string? Notes,
         List<OrderItem> OrderItems
     );
 
