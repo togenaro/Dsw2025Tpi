@@ -22,7 +22,7 @@ public class Order : EntityBase
     public string? Notes { get; set; }
 
     public decimal TotalAmount => Items.Sum(i => i.Subtotal);
-    public OrderStatus Status { get; set; } = OrderStatus.PENDING;
+    public OrderStatus Status { get; set; }
     #endregion
 
     #region Constructor por defecto necesario para EF Core
@@ -38,11 +38,6 @@ public class Order : EntityBase
     }
     #endregion
 
-    // No es necesario incluir la propiedad Products, ya que los productos se manejan a través de OrderItems.
-
-    // Del ejercicio 15:
-    // public ICollection<Product> Products { get; } = new HashSet<Product>(); 
-    // public List<OrderItem> Items { get; set; } = new();
 }
 
 

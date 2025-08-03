@@ -10,7 +10,7 @@ namespace Dsw2025Tpi.Api.Controllers;
 [Route("api/products")]
 public class ProductsController : ControllerBase
 {
-    
+
     #region Inyección de los servicios
     private readonly ProductsManagementService _service;
 

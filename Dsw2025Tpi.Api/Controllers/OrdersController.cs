@@ -29,18 +29,6 @@ public class OrdersController : ControllerBase
     {
         var order = await _service.CreateOrder(request);
         return Created($"api/orders/{order.OrderId}", order);
-        /*try
-        {
-
-        }
-        catch (ArgumentException ae)
-        {
-            return BadRequest(ae.Message);
-        }
-        catch (Exception)
-        {
-            return Problem("Ocurrió un error al crear la orden.");
-        }*/
     }
     #endregion
 
