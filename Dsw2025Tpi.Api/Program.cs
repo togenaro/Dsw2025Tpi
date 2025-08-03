@@ -69,10 +69,8 @@ public class Program
             };
 
         })
-        .AddEntityFrameworkStores<AuthenticateContext>()
-        .AddDefaultTokenProviders();
-
-
+            .AddEntityFrameworkStores<AuthenticateContext>()
+            .AddDefaultTokenProviders();
         var jwtConfig = builder.Configuration.GetSection("Jwt");
         var keyText = jwtConfig["Key"] ?? throw new ArgumentNullException("JWT Key");
         var key = Encoding.UTF8.GetBytes(keyText);
