@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dsw2025Tpi.Domain.Entities;
@@ -17,8 +18,6 @@ public class OrderItem : EntityBase
     #endregion
 
     #region Propiedades propias de la entidad
-    //public string? Name { get; set; }
-    //public string? Description { get; set; }
     public decimal UnitPrice { get; set; }
     public int Quantity { get; set; }
     public decimal Subtotal => UnitPrice * Quantity;
@@ -32,8 +31,6 @@ public class OrderItem : EntityBase
     {
         ProductId = productId;
         OrderId = orderId;
-        //Name = name;
-        //Description = description;
         UnitPrice = unitPrice;
         Quantity = quantity;
     }

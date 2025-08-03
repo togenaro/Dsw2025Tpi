@@ -25,7 +25,6 @@ namespace Dsw2025Tpi.Api.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Ocurrió una excepción no controlada");
-
                 context.Response.ContentType = "application/json";
 
                 context.Response.StatusCode = ex switch
@@ -37,9 +36,7 @@ namespace Dsw2025Tpi.Api.Middlewares
                     _ => (int)HttpStatusCode.InternalServerError
                 };
 
-
-
-            var response = new
+                var response = new
                 {
                     error = ex.Message
                 };

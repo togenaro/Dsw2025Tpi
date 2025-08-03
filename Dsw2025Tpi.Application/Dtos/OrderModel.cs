@@ -4,11 +4,17 @@ namespace Dsw2025Tpi.Application.Dtos;
 
 public record OrderModel
 {
-    public record OrderItem(
+    public record OrderItemResponse(
         Guid ProductId,
         int Quantity,
-        decimal CurrentUnitPrice,
-        decimal subtotal  
+        decimal UnitPrice,
+        decimal Subtotal
+    );
+
+    public record OrderItemRequest(
+        Guid ProductId,
+        int Quantity,
+        decimal UnitPrice
     );
 
     public record OrderRequest(
@@ -16,7 +22,7 @@ public record OrderModel
         string ShippingAddress,
         string BillingAddress,
         string? Notes,
-        List<OrderItem> OrderItems
+        List<OrderItemRequest> OrderItems
     );
 
     public record OrderResponse(
@@ -27,7 +33,7 @@ public record OrderModel
         decimal TotalAmount,
         string? Notes,
         string status,
-        List<OrderItem> OrderItems
+        List<OrderItemResponse> OrderItems
     );
 
     public record OrderSearchFilter(
