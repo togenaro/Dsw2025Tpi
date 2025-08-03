@@ -1,9 +1,11 @@
 using Dsw2025Tpi.Api.Configurations;
 using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Services;
+using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Data.Repositories;
 using Dsw2025Tpi.Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -59,6 +61,17 @@ public class Program
 
 
         builder.Services.AddHealthChecks();
+        builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+        {
+            options.Password = new PasswordOptions
+            {
+                RequiredLength = 8
+            };
+
+        })
+        .AddEntityFrameworkStores<AuthenticateContext>()
+        .AddDefaultTokenProviders();
+
 
         var jwtConfig = builder.Configuration.GetSection("Jwt");
         var keyText = jwtConfig["Key"] ?? throw new ArgumentNullException("JWT Key");
@@ -84,6 +97,11 @@ public class Program
             });
 
         builder.Services.AddDomainServices(builder.Configuration);
+        builder.Services.AddDbContext<AuthenticateContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Dsw2025TpiEntities"));
+        });
+
         builder.Services.AddSingleton<JwtTokenService>();
 
         var app = builder.Build();
