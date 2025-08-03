@@ -96,19 +96,6 @@ public class OrdersController : ControllerBase
     {
         var result = await _service.UpdateOrderStatus(id, request.NewStatus);
         return Ok(result);
-        /*try
-        {
-            var result = await _service.UpdateOrderStatus(id, request.NewStatus);
-            return Ok(result);
-        }
-        catch (ArgumentException e)
-        {
-            return BadRequest(e.Message);
-        }
-        catch (KeyNotFoundException)
-        {
-            return NotFound();
-        }*/
     }
     #endregion
 

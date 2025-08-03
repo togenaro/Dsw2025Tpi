@@ -7,9 +7,8 @@ public record OrderModel
     public record OrderItem(
         Guid ProductId,
         int Quantity,
-        //string Name,
-        //string Description,
-        decimal CurrentUnitPrice
+        decimal CurrentUnitPrice,
+        decimal subtotal  
     );
 
     public record OrderRequest(
@@ -26,7 +25,8 @@ public record OrderModel
         string ShippingAddress,
         string BillingAddress,
         decimal TotalAmount,
-        string Notes,
+        string? Notes,
+        string status,
         List<OrderItem> OrderItems
     );
 
@@ -37,5 +37,5 @@ public record OrderModel
         int PageSize = 10
     );
 
-    public record OrderStatusUpdate(string NewStatus);
+    public record OrderStatusUpdate(Guid OrderId, string NewStatus);
 }
