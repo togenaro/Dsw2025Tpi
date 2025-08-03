@@ -23,10 +23,42 @@ public class Program
 
         //builder.Services.AddSingleton<IRepository, InMemoryRepository>();
 
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(o =>
+        {
+            o.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Desarrollo de Software",
+                Version = "v1",
+            });
+            o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Description = "Ingresar el token",
+                Type = SecuritySchemeType.ApiKey
+            });
+            o.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+        });
+
 
 
         builder.Services.AddHealthChecks();
+
+        builder.Services.AddAuthentication()
+            .AddJwtBearer();
 
         builder.Services.AddDomainServices(builder.Configuration);
 
@@ -45,6 +77,7 @@ public class Program
         app.UseMiddleware<Dsw2025Tpi.Api.Middlewares.ExceptionHandlingMiddleware>();
 
 
+        app.UseAuthentication(); 
         app.UseAuthorization();
 
         app.MapControllers();
