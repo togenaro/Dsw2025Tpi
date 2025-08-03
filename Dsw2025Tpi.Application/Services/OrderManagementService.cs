@@ -8,6 +8,7 @@ using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Azure.Core;
 
 namespace Dsw2025Tpi.Application.Services;
 
@@ -34,7 +35,6 @@ public class OrderManagementService
         if (customer == null)
             throw new ArgumentException($"Cliente con ID {request.CustomerId} no encontrado.");
 
-        decimal total = 0m;
         var orderItems = new List<OrderItem>();
 
         foreach (var item in request.OrderItems)
@@ -53,14 +53,11 @@ public class OrderManagementService
             var orderItem = new OrderItem
             {
                 ProductId = item.ProductId,
-                //Name = item.Name,
-                //Description = item.Description,
                 UnitPrice = item.CurrentUnitPrice,
                 Quantity = item.Quantity
             };
 
             orderItems.Add(orderItem);
-            total += orderItem.Subtotal;
         }
 
         var order = new Order
@@ -69,10 +66,9 @@ public class OrderManagementService
             Customer = customer,
             ShippingAddress = request.ShippingAddress,
             BillingAddress = request.BillingAddress,
-            Notes = request.Notes, // Se puede ampliar si lo agregás en el Request
+            Notes = request.Notes, 
             Date = DateTime.UtcNow,
             Status = OrderStatus.PENDING,
-            TotalAmount = total,
             Items = orderItems
         };
 
@@ -84,23 +80,27 @@ public class OrderManagementService
             order.ShippingAddress,
             order.BillingAddress,
             order.TotalAmount,
-            order.Notes,
+            order.Notes!,
+            order.Status.ToString(),
             order.Items.Select(i => new OrderModel.OrderItem(
                 i.ProductId,
                 i.Quantity,
-                //i.Name,
-                //i.Description,
-                i.UnitPrice
+                i.UnitPrice,
+                i.Subtotal
             )).ToList()
         );
     }
 
     public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter? filter = null)
     {
-        //return (List<Product>?) await _repository.GetAll<Product>();
-
         var orders = await _repository.GetAll<Order>();
-        if (orders == null || !orders.Any()) return null;
+        var orderItems = await _repository.GetAll<OrderItem>();
+        if (orders == null || !orders.Any()) return null!;
+
+        foreach(var order in orders)
+        {
+            order.Items = orderItems!.Where(i => i.OrderId == order.Id).ToList();
+        }
 
         return orders.Select(o => new OrderModel.OrderResponse(
             o.Id,
@@ -108,99 +108,47 @@ public class OrderManagementService
             o.ShippingAddress,
             o.BillingAddress,
             o.TotalAmount,
-            o.Notes,
-            o.Items.Select(i => new OrderModel.OrderItem(
+            o.Notes!,
+            o.Status.ToString(),
+            o.Items.Select(i => new OrderModel.OrderItem
+            (
                 i.ProductId,
                 i.Quantity,
-                //i.Name,
-                //i.Description,
-                i.UnitPrice
+                i.UnitPrice,
+                i.Subtotal
             )).ToList()
         )).ToList();
     }
 
-
-    // OPCION 1
-    /*public async Task<List<OrderModel.OrderResponse>> GetOrders(OrderModel.OrderSearchFilter filter)
-    {
-        var query = _repository.Query<Order>();
-
-        if (filter.Status is not null)
-            query = query.Where(o => o.Status == filter.Status);
-
-        if (filter.CustomerId is not null)
-            query = query.Where(o => o.CustomerId == filter.CustomerId);
-
-        var skip = (filter.PageNumber - 1) * filter.PageSize;
-
-        var orders = await query
-            .Skip(skip)
-            .Take(filter.PageSize)
-            .Include(o => o.Items)
-            .ToListAsync();
-
-        return orders.Select(o => new OrderModel.OrderResponse(
-            o.Id,
-            o.CustomerId,
-            o.ShippingAddress,
-            o.BillingAddress,
-            o.TotalAmount,
-            o.Items.Select(i => new OrderModel.OrderItem(
-                i.ProductId,
-                i.Quantity,
-                i.Name,
-                i.Description,
-                i.UnitPrice
-            )).ToList()
-        )).ToList();
-    }*/
-
     public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
     {
         var order = await _repository.GetById<Order>(id);
-        if (order == null) throw new KeyNotFoundException("Orden no encontrada."); 
+        var orderItems = await _repository.GetAll<OrderItem>();
+        if (order == null) throw new KeyNotFoundException("Orden no encontrada.");
+
+        foreach(var items in orderItems!)
+        {
+            order.Items = orderItems.Where(i => i.OrderId == order.Id).ToList();
+        }
+
         return new OrderModel.OrderResponse(
         order.Id,
         order.CustomerId,
         order.ShippingAddress,
         order.BillingAddress,
         order.TotalAmount,
-        order.Notes,
-        order.Items.Select(i => new OrderModel.OrderItem(
-            i.ProductId,
-            i.Quantity,
-            //i.Name,
-            //i.Description,
-            i.UnitPrice
-        )).ToList()
+        order.Notes!,
+        order.Status.ToString(),
+        order.Items.Select(i => new OrderModel.OrderItem
+            (
+                i.ProductId,
+                i.Quantity,
+                i.UnitPrice,
+                i.Subtotal
+            )).ToList()
         );
     }
     
-    /*
-    public async Task<OrderModel.OrderResponse?> GetOrderById(Guid id)
-    {
-        var order = await _repository
-            .Query<Order>()
-            .Include(o => o.Items)
-            .FirstOrDefaultAsync(o => o.Id == id);
-
-        if (order is null) return null;
-
-        return new OrderModel.OrderResponse(
-            order.Id,
-            order.CustomerId,
-            order.ShippingAddress,
-            order.BillingAddress,
-            order.TotalAmount,
-            order.Items.Select(i => new OrderModel.OrderItem(
-                i.ProductId,
-                i.Quantity,
-                i.Name,
-                i.Description,
-                i.UnitPrice
-            )).ToList()
-        );
-    }*/
 
     public async Task<OrderModel.OrderResponse> UpdateOrderStatus(Guid id, string newStatus)
     {
@@ -215,19 +163,26 @@ public class OrderManagementService
         order.Status = parsedStatus;
         await _repository.Update(order);
 
+        var orderItems = await _repository.GetAll<OrderItem>();
+        foreach (var items in orderItems!)
+        {
+            order.Items = orderItems.Where(i => i.OrderId == order.Id).ToList();
+        }
+
         return new OrderModel.OrderResponse(
             order.Id,
             order.CustomerId,
             order.ShippingAddress,
             order.BillingAddress,
             order.TotalAmount,
-            order.Notes,
-            order.Items.Select(i => new OrderModel.OrderItem(
+            order.Notes!,
+            order.Status.ToString(),
+            order.Items.Select(i => new OrderModel.OrderItem
+            (
                 i.ProductId,
                 i.Quantity,
-                //i.Name,
-                //i.Description,
-                i.UnitPrice
+                i.UnitPrice,
+                i.Subtotal
             )).ToList()
         );
     }

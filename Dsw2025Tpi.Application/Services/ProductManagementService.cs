@@ -62,8 +62,6 @@ public class ProductsManagementService
 
     public async Task<List<ProductModel.ProductResponse>?> GetProducts()
     {
-        //return (List<Product>?) await _repository.GetAll<Product>();
-
         var products = await _repository.GetAll<Product>();
         if (products == null || !products.Any()) return null;
         return products.Where(p => p.IsActive)?
@@ -72,34 +70,30 @@ public class ProductsManagementService
             // en un nuevo objeto ProductResponse.
             (
                 p.Id,
-                p.Sku!,
-                p.InternalCode!,
-                p.Name!,
+                p.Sku,
+                p.InternalCode,
+                p.Name,
                 p.Description!,
                 p.CurrentUnitPrice,
                 p.StockQuantity,
                 p.IsActive
             )).ToList();
             // Notá que estás usando ! para ignorar posibles advertencias de nulabilidad
-            // (Sku!, Name!, etc.). Eso le dice al compilador: “confío en que esto no es null”.
+            // Eso le dice al compilador: “confío en que esto no es null”.
     }
 
     public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
     {
-        //return await _repository.GetById<Product>(id);
         var product = await _repository.GetById<Product>(id);
         if(product == null || !product.IsActive)
-        {
             throw new KeyNotFoundException("Producto no encontrado.");
-        }
-
 
         return new ProductModel.ProductResponse
             (
                 product.Id,
-                product.Sku!,
-                product.InternalCode!,
-                product.Name!,
+                product.Sku,
+                product.InternalCode,
+                product.Name,
                 product.Description!,
                 product.CurrentUnitPrice,
                 product.StockQuantity,
@@ -109,11 +103,6 @@ public class ProductsManagementService
 
     public async Task<ProductModel.ProductResponse> UpdateProduct(Guid id, ProductModel.ProductRequest update)
     {
-        var product = await _repository.GetById<Product>(id);
-
-        if (product == null)
-            throw new KeyNotFoundException("Producto no encontrado.");
-
         // Validaciones básicas
         if (string.IsNullOrWhiteSpace(update.Sku) ||
             string.IsNullOrWhiteSpace(update.Name) ||
@@ -123,6 +112,11 @@ public class ProductsManagementService
         {
             throw new ArgumentException("Datos inválidos para actualizar el producto.");
         }
+
+        var product = await _repository.GetById<Product>(id);
+
+        if (product == null)
+            throw new KeyNotFoundException("Producto no encontrado.");
 
         // Asignación de campos
         product.Sku = update.Sku;
@@ -136,9 +130,9 @@ public class ProductsManagementService
 
         return new ProductModel.ProductResponse(
             product.Id,
-            product.Sku!,
-            product.InternalCode!,
-            product.Name!,
+            product.Sku,
+            product.InternalCode,
+            product.Name,
             product.Description!,
             product.CurrentUnitPrice,
             product.StockQuantity,

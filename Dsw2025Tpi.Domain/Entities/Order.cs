@@ -17,11 +17,11 @@ public class Order : EntityBase
 
     #region Propiedades propias de la entidad
     public DateTime Date { get; set; } = DateTime.UtcNow;
-    public string? ShippingAddress { get; set; }
-    public string? BillingAddress { get; set; }
+    public string ShippingAddress { get; set; }
+    public string BillingAddress { get; set; }
     public string? Notes { get; set; }
 
-    public decimal TotalAmount { get; set; }
+    public decimal TotalAmount => Items.Sum(i => i.Subtotal);
     public OrderStatus Status { get; set; } = OrderStatus.PENDING;
     #endregion
 
