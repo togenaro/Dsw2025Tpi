@@ -21,8 +21,7 @@ public class ProductsManagementService
             string.IsNullOrWhiteSpace(request.Name) ||
             string.IsNullOrWhiteSpace(request.InternalCode) ||
             request.CurrentUnitPrice <= 0 ||
-            request.StockQuantity < 0
-            )
+            request.StockQuantity < 0)
         {
             throw new ArgumentException("Valores para el producto no válidos");
         }
@@ -30,17 +29,12 @@ public class ProductsManagementService
         var exist = await _repository.First<Product>(p => p.Sku == request.Sku);
         if (exist != null) throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
 
-        /*var product = new Product(request.Sku, request.Name, request.CurrentUnitPrice);
-        await _repository.Add(product);
-        return new ProductModel.Response(product.Id);*/
-
         var product = new Product
         (
-            // El Guid se crea mediante el constructor de la clase base "Entitybase".
             request.Sku,
             request.InternalCode,
             request.Name,
-            request.Description,
+            request.Description!,
             request.CurrentUnitPrice,
             request.StockQuantity
         );
@@ -50,9 +44,9 @@ public class ProductsManagementService
         return new ProductModel.ProductResponse
         (
             product.Id,
-            product.Sku!,
-            product.InternalCode!,
-            product.Name!,
+            product.Sku,
+            product.InternalCode,
+            product.Name,
             product.Description!,
             product.CurrentUnitPrice,
             product.StockQuantity,
@@ -64,10 +58,10 @@ public class ProductsManagementService
     {
         var products = await _repository.GetAll<Product>();
         if (products == null || !products.Any()) return null;
-        return products.Where(p => p.IsActive)?
-            .Select(p => new ProductModel.ProductResponse
-            // A cada producto activo resultante del filtro anterior, lo transforma (proyecta)
-            // en un nuevo objeto ProductResponse.
+
+        return products
+        .Where(p => p.IsActive)
+        .Select(p => new ProductModel.ProductResponse
             (
                 p.Id,
                 p.Sku,
@@ -77,9 +71,8 @@ public class ProductsManagementService
                 p.CurrentUnitPrice,
                 p.StockQuantity,
                 p.IsActive
-            )).ToList();
-            // Notá que estás usando ! para ignorar posibles advertencias de nulabilidad
-            // Eso le dice al compilador: “confío en que esto no es null”.
+            ))
+        .ToList();
     }
 
     public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
@@ -103,7 +96,6 @@ public class ProductsManagementService
 
     public async Task<ProductModel.ProductResponse> UpdateProduct(Guid id, ProductModel.ProductRequest update)
     {
-        // Validaciones básicas
         if (string.IsNullOrWhiteSpace(update.Sku) ||
             string.IsNullOrWhiteSpace(update.Name) ||
             string.IsNullOrWhiteSpace(update.InternalCode) ||
@@ -118,7 +110,6 @@ public class ProductsManagementService
         if (product == null)
             throw new KeyNotFoundException("Producto no encontrado.");
 
-        // Asignación de campos
         product.Sku = update.Sku;
         product.InternalCode = update.InternalCode;
         product.Name = update.Name;
@@ -128,7 +119,8 @@ public class ProductsManagementService
 
         await _repository.Update(product);
 
-        return new ProductModel.ProductResponse(
+        return new ProductModel.ProductResponse
+        (
             product.Id,
             product.Sku,
             product.InternalCode,

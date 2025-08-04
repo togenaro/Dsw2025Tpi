@@ -13,8 +13,7 @@ public record OrderModel
 
     public record OrderItemRequest(
         Guid ProductId,
-        int Quantity,
-        decimal UnitPrice
+        int Quantity
     );
 
     public record OrderRequest(
