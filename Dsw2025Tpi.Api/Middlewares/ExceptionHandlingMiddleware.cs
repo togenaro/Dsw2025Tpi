@@ -30,8 +30,10 @@ namespace Dsw2025Tpi.Api.Middlewares
                 context.Response.StatusCode = ex switch
                 {
                     //AppException => (int)HttpStatusCode.BadRequest,
-                    KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                    EntityNotFoundException => (int)HttpStatusCode.NotFound,
+                    InactiveEntityException => (int)HttpStatusCode.UnprocessableEntity,
                     ArgumentException => (int)HttpStatusCode.BadRequest,
+                    InvalidOperationException => (int)HttpStatusCode.BadRequest,
                     DuplicatedEntityException => (int)HttpStatusCode.Conflict,
                     _ => (int)HttpStatusCode.InternalServerError
                 };

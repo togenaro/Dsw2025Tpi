@@ -1,6 +1,7 @@
 ﻿using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Application.Services;
+using Dsw2025Tpi.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> GetProducts()
     {
         var products = await _service.GetProducts();
-        if (products == null || !products.Any()) return NoContent(); // 204
+        if (products is null) return NoContent(); // 204
         return Ok(products); // 200
     }
     #endregion
