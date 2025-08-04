@@ -23,6 +23,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°1
+    [Authorize(Roles = "Admin")]
     [HttpPost()] 
     public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
     // Dado el parámetro "ProductRequest" se crea una instancia del mismo tipo con ayuda del atributo [FromBody]
@@ -56,6 +57,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°2
+    [AllowAnonymous]
     [HttpGet()] 
     public async Task<IActionResult> GetProducts()
     {
@@ -66,7 +68,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°3
-    [HttpGet("{id}")] // Tercer endpoint
+    [AllowAnonymous]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetProductById(Guid id)
     {
         var product = await _service.GetProductById(id);
@@ -76,7 +79,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°4
-    [HttpPut("{id}")] // Cuarto endpoint
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
         var result = await _service.UpdateProduct(id, request);
@@ -101,25 +105,12 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°5
-    [HttpPatch("{id}")] // Quinto endpoint
-    // Como no hay cuerpo de solicitud(PATCH sin payload),
-    // no hace falta crear un DTO específico para esto.
+    [Authorize(Roles = "Admin")]
+    [HttpPatch("{id}")]
     public async Task<IActionResult> InactivateProduct(Guid id)
     {
         await _service.InactivateProduct(id);
         return NoContent(); // 204
-        /*try
-        {
-
-        }
-        catch (KeyNotFoundException knf)
-        {
-            return NotFound(knf.Message); // 404
-        }
-        catch (Exception)
-        {
-            return Problem("Error al intentar inhabilitar el producto"); // 500
-        }*/
     }
     #endregion
 
