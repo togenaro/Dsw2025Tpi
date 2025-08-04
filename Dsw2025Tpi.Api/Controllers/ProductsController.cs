@@ -24,8 +24,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°1
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpPost()] 
     public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
     {
@@ -35,8 +34,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°2
+    [HttpGet()]
     [AllowAnonymous]
-    [HttpGet()] 
     public async Task<IActionResult> GetProducts()
     {
         var products = await _service.GetProducts();
@@ -46,7 +45,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°3
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProductById(Guid id)
     {
@@ -57,8 +56,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°4
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
@@ -68,8 +66,7 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°5
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpPatch("{id}")]
     public async Task<IActionResult> InactivateProduct(Guid id)
     {
