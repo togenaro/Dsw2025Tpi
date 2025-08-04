@@ -62,23 +62,23 @@ public class ProductsManagementService
         return products
         .Where(p => p.IsActive)
         .Select(p => new ProductModel.ProductResponse
-            (
-                p.Id,
-                p.Sku,
-                p.InternalCode,
-                p.Name,
-                p.Description!,
-                p.CurrentUnitPrice,
-                p.StockQuantity,
-                p.IsActive
-            ))
+        (
+            p.Id,
+            p.Sku,
+            p.InternalCode,
+            p.Name,
+            p.Description!,
+            p.CurrentUnitPrice,
+            p.StockQuantity,
+            p.IsActive
+        ))
         .ToList();
     }
 
     public async Task<ProductModel.ProductResponse?> GetProductById(Guid id)
     {
         var product = await _repository.GetById<Product>(id);
-        if(product == null || !product.IsActive)
+        if(product == null)
             throw new KeyNotFoundException("Producto no encontrado.");
 
         return new ProductModel.ProductResponse
@@ -117,6 +117,7 @@ public class ProductsManagementService
         product.CurrentUnitPrice = update.CurrentUnitPrice;
         product.StockQuantity = update.StockQuantity;
 
+        if (product.StockQuantity > 0 && !product.IsActive) product.IsActive = true;
         await _repository.Update(product);
 
         return new ProductModel.ProductResponse

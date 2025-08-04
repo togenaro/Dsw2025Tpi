@@ -48,13 +48,14 @@ public class OrderManagementService
             var product = await _repository.GetById<Product>(item.ProductId);
 
             // Validación
-            if (product == null)
+            if (product == null || !product.IsActive)
                 throw new ArgumentException($"Producto con ID {item.ProductId} no encontrado.");
             if (product.StockQuantity < item.Quantity)
                 throw new ArgumentException($"Stock insuficiente para el producto {product.Name}.");
 
             // Modificación en DB
             product.StockQuantity -= item.Quantity;
+            if(product.StockQuantity==0) product.IsActive = false;
             await _repository.Update(product);
             #endregion
 
@@ -111,11 +112,11 @@ public class OrderManagementService
         if (orders == null || !orders.Any()) return null!;
 
         foreach(var order in orders)
-        {
-            order.Items = orderItems!.Where(i => i.OrderId == order.Id).ToList();
-        }
+            order.Items = orderItems!.Where(oi => oi.OrderId == order.Id).ToList();
 
-        return orders.Select(o => new OrderModel.OrderResponse(
+        return orders
+        .Select(o => new OrderModel.OrderResponse
+        (
             o.Id,
             o.CustomerId,
             o.ShippingAddress,
@@ -123,7 +124,8 @@ public class OrderManagementService
             o.TotalAmount,
             o.Notes!,
             o.Status.ToString(),
-            o.Items.Select(i => new OrderModel.OrderItemResponse
+            o.Items
+            .Select(i => new OrderModel.OrderItemResponse
             (
                 i.ProductId,
                 i.Quantity,
@@ -139,20 +141,19 @@ public class OrderManagementService
         var orderItems = await _repository.GetAll<OrderItem>();
         if (order == null) throw new KeyNotFoundException("Orden no encontrada.");
 
-        foreach(var items in orderItems!)
-        {
-            order.Items = orderItems.Where(i => i.OrderId == order.Id).ToList();
-        }
+        order.Items = orderItems!.Where(oi => oi.OrderId == order.Id).ToList();
 
-        return new OrderModel.OrderResponse(
-        order.Id,
-        order.CustomerId,
-        order.ShippingAddress,
-        order.BillingAddress,
-        order.TotalAmount,
-        order.Notes!,
-        order.Status.ToString(),
-        order.Items.Select(i => new OrderModel.OrderItemResponse
+        return new OrderModel.OrderResponse
+        (
+            order.Id,
+            order.CustomerId,
+            order.ShippingAddress,
+            order.BillingAddress,
+            order.TotalAmount,
+            order.Notes!,
+            order.Status.ToString(),
+            order.Items
+            .Select(i => new OrderModel.OrderItemResponse
             (
                 i.ProductId,
                 i.Quantity,
@@ -162,7 +163,6 @@ public class OrderManagementService
         );
     }
     
-
     public async Task<OrderModel.OrderResponse> UpdateOrderStatus(Guid id, string newStatus)
     {
         var order = await _repository.GetById<Order>(id);
@@ -177,12 +177,10 @@ public class OrderManagementService
         await _repository.Update(order);
 
         var orderItems = await _repository.GetAll<OrderItem>();
-        foreach (var items in orderItems!)
-        {
-            order.Items = orderItems.Where(i => i.OrderId == order.Id).ToList();
-        }
+        order.Items = orderItems!.Where(oi => oi.OrderId == order.Id).ToList();
 
-        return new OrderModel.OrderResponse(
+        return new OrderModel.OrderResponse
+        (
             order.Id,
             order.CustomerId,
             order.ShippingAddress,
@@ -190,7 +188,8 @@ public class OrderManagementService
             order.TotalAmount,
             order.Notes!,
             order.Status.ToString(),
-            order.Items.Select(i => new OrderModel.OrderItemResponse
+            order.Items
+            .Select(i => new OrderModel.OrderItemResponse
             (
                 i.ProductId,
                 i.Quantity,
