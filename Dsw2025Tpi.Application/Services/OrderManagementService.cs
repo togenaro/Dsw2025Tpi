@@ -62,7 +62,7 @@ public class OrderManagementService
             var orderItem = new OrderItem
             {
                 ProductId = item.ProductId,
-                UnitPrice = item.UnitPrice,
+                UnitPrice = product.CurrentUnitPrice,
                 Quantity = item.Quantity
             };
 
