@@ -25,8 +25,9 @@ public class OrdersController : ControllerBase
 
     #endregion
 
-    #region Endpoint N°5
-    [HttpPost] // Sexto endpoint
+    #region Endpoint N°6
+    [Authorize(Roles = "User")]
+    [HttpPost] 
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel.OrderRequest request)
     {
         var order = await _service.CreateOrder(request);
@@ -35,6 +36,7 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°7
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetOrders(
                                                /*OrderStatus? status,
@@ -68,6 +70,7 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°8
+    [Authorize(Roles = "Admin,User")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(Guid id)
     {
@@ -81,7 +84,8 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°9
-    [HttpPut("{id}/status")] // Noveno endpoint
+    [Authorize(Roles = "Admin")]
+    [HttpPut("{id}/status")]
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderModel.OrderStatusUpdate request)
     {
         var result = await _service.UpdateOrderStatus(id, request.NewStatus);

@@ -21,6 +21,8 @@ public class Program
 
         // Add services to the container.
 
+
+
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -103,7 +105,7 @@ public class Program
         builder.Services.AddSingleton<JwtTokenService>();
 
         var app = builder.Build();
-
+        app.SeedRoles();
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {

@@ -37,8 +37,21 @@ public class AuthenticateController : ControllerBase
             return Unauthorized("Usuario o contraseña incorrectos");
         }
 
-        var token = _jwtTokenService.GenerateToken(request.Username);
-        return Ok(new { token });
+       
+
+        /*var token = _jwtTokenService.GenerateToken(request.Username);
+        return Ok(new { token });*/
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var token = _jwtTokenService.GenerateToken(user.UserName, roles);
+        return Ok(new
+        {
+            token,
+            username = user.UserName,
+            roles
+        });
+
+
     }
 
     [HttpPost("register")]
