@@ -12,27 +12,38 @@ namespace Dsw2025Tpi.Api.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(UserManager<IdentityUser> userManager)
+    public AdminController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     [HttpPost("assign-role")]
-    public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel model)
+    public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel request)
     {
-        var user = await _userManager.FindByNameAsync(model.Username);
-        if (user == null)
+        if(request == null || 
+           string.IsNullOrEmpty(request.Username) || 
+           string.IsNullOrEmpty(request.Role)) 
+            return BadRequest("Datos incompletos para asignar rol.");
+
+        var roleExists = await _roleManager.RoleExistsAsync(request.Role);
+        if (!roleExists)
+            return NotFound($"El rol '{request.Role}' no existe.");
+
+        var user = await _userManager.FindByNameAsync(request.Username);
+        if (user is null) 
             return NotFound("Usuario no encontrado.");
 
-        if (await _userManager.IsInRoleAsync(user, model.Role))
+        if (await _userManager.IsInRoleAsync(user, request.Role)) 
             return BadRequest("El usuario ya tiene ese rol.");
 
-        var result = await _userManager.AddToRoleAsync(user, model.Role);
-        if (!result.Succeeded)
+        var result = await _userManager.AddToRoleAsync(user, request.Role);
+        if (!result.Succeeded) 
             return BadRequest(result.Errors);
 
-        return Ok($"Rol '{model.Role}' asignado al usuario '{model.Username}'.");
+        return Ok($"Rol '{request.Role}' asignado al usuario '{request.Username}'.");
     }
 }
 

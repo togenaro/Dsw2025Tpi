@@ -26,39 +26,24 @@ public class AuthenticateController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginModel request)
     {
         var user = await _userManager.FindByNameAsync(request.Username);
-        if (user == null)
-        {
-            return Unauthorized("Usuario o contraseña incorrectos");
-        }
+        if (user == null) return Unauthorized("Usuario no encontrado");
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-        if (!result.Succeeded)
-        {
-            return Unauthorized("Usuario o contraseña incorrectos");
-        }
-
-       
-
-        /*var token = _jwtTokenService.GenerateToken(request.Username);
-        return Ok(new { token });*/
+        if(_userManager.CheckPasswordAsync(user, request.Password).Result == false)
+            return Unauthorized("Contraseña incorrecta");
 
         var roles = await _userManager.GetRolesAsync(user);
-        var token = _jwtTokenService.GenerateToken(user.UserName, roles);
+        var token = _jwtTokenService.GenerateToken(user.UserName!, roles);
         return Ok(new
         {
             token,
             username = user.UserName,
             roles
         });
-
-
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterModel model)
     {
-
-
         var user = new IdentityUser { UserName = model.Username, Email = model.Email };
         var result = await _userManager.CreateAsync(user, model.Password);
 

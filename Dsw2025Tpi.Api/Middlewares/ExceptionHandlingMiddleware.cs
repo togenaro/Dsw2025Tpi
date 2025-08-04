@@ -32,6 +32,7 @@ namespace Dsw2025Tpi.Api.Middlewares
                     //AppException => (int)HttpStatusCode.BadRequest,
                     EntityNotFoundException => (int)HttpStatusCode.NotFound,
                     InactiveEntityException => (int)HttpStatusCode.UnprocessableEntity,
+                    SameStateException => (int)HttpStatusCode.UnprocessableEntity,
                     ArgumentException => (int)HttpStatusCode.BadRequest,
                     InvalidOperationException => (int)HttpStatusCode.BadRequest,
                     DuplicatedEntityException => (int)HttpStatusCode.Conflict,

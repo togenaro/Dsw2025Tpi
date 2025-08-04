@@ -23,7 +23,7 @@ public class OrderItem : EntityBase
     public decimal Subtotal => UnitPrice * Quantity;
     #endregion
 
-    #region Constructor por defecto necesario para EF Core (no se si va)
+    #region Constructores
     public OrderItem()
     {
     }

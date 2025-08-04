@@ -25,7 +25,7 @@ public class Order : EntityBase
     public OrderStatus Status { get; set; }
     #endregion
 
-    #region Constructor por defecto necesario para EF Core
+    #region Constructores
     public Order()
     {
     }
