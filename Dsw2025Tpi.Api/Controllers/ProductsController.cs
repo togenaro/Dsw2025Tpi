@@ -23,7 +23,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°1
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [HttpPost()] 
     public async Task<IActionResult> AddProduct([FromBody] ProductModel.ProductRequest request) 
     {
@@ -55,7 +56,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°4
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductModel.ProductRequest request)
     {
@@ -65,7 +67,8 @@ public class ProductsController : ControllerBase
     #endregion
 
     #region Endpoint N°5
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     [HttpPatch("{id}")]
     public async Task<IActionResult> InactivateProduct(Guid id)
     {
