@@ -168,7 +168,7 @@ public class OrderManagementService
         var order = await _repository.GetById<Order>(id);
 
         if (order is null)
-            throw new KeyNotFoundException($"Orden con ID {id} no encontrada.");
+            throw new EntityNotFoundException($"Orden con ID {id} no encontrada.");
 
         if (!Enum.TryParse<OrderStatus>(newStatus, true, out var parsedStatus))
             throw new ArgumentException("Estado de orden no válido.");

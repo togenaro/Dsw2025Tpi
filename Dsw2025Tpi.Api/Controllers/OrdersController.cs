@@ -50,7 +50,7 @@ public class OrdersController : ControllerBase
         //var filter = new OrderModel.OrderSearchFilter(/*status, customerId, pageNumber, pageSize*/);
         var result = await _service.GetOrders();
 
-        if (result is null || result.Count == 0) return NoContent();
+        if (result is null) return NoContent();
 
         return Ok(result);
     }
@@ -79,8 +79,7 @@ public class OrdersController : ControllerBase
     {
         var result = await _service.GetOrderById(id);
 
-        if (result is null)
-            return NotFound();
+        if (result is null) return NotFound();
 
         return Ok(result);
     }

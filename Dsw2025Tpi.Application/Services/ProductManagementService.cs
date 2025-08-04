@@ -57,9 +57,9 @@ public class ProductsManagementService
     public async Task<List<ProductModel.ProductResponse>?> GetProducts()
     {
         var products = await _repository.GetAll<Product>();
-        if (products == null || !products.Any()) return null;
+        if(products == null || !products.Any()) return null;
 
-        return products
+        return products?
         .Where(p => p.IsActive)
         .Select(p => new ProductModel.ProductResponse
         (
@@ -79,7 +79,7 @@ public class ProductsManagementService
     {
         var product = await _repository.GetById<Product>(id);
         if(product == null)
-            throw new KeyNotFoundException("Producto no encontrado.");
+            throw new EntityNotFoundException($"Producto con ID {id} no encontrado.");
 
         return new ProductModel.ProductResponse
             (
@@ -108,7 +108,7 @@ public class ProductsManagementService
         var product = await _repository.GetById<Product>(id);
 
         if (product == null)
-            throw new KeyNotFoundException("Producto no encontrado.");
+            throw new EntityNotFoundException("Producto no encontrado.");
 
         product.Sku = update.Sku;
         product.InternalCode = update.InternalCode;
@@ -138,7 +138,9 @@ public class ProductsManagementService
         var product = await _repository.GetById<Product>(id);
 
         if (product == null)
-            throw new KeyNotFoundException("Producto no encontrado.");
+            throw new EntityNotFoundException("Producto no encontrado.");
+        if(!product.IsActive)
+            throw new InactiveEntityException("El producto ya está inactivo.");
 
         product.IsActive = false;
 
