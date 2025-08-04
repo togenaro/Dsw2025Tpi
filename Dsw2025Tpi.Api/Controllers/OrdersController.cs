@@ -26,8 +26,7 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°6
-    //[Authorize(Roles = "User")]
-    [AllowAnonymous]
+    [Authorize(Roles = "User")]
     [HttpPost] 
     public async Task<IActionResult> CreateOrder([FromBody] OrderModel.OrderRequest request)
     {
@@ -38,7 +37,6 @@ public class OrdersController : ControllerBase
 
     #region Endpoint N°7
     [Authorize(Roles = "Admin")]
-    //[AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetOrders()
     {
@@ -50,8 +48,7 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°8
-    //[Authorize(Roles = "Admin,User")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin,User")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(Guid id)
     {
@@ -64,8 +61,7 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°9
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}/status")]
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderModel.OrderStatusUpdate request)
     {
