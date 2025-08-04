@@ -18,7 +18,7 @@ public class Product : EntityBase
     public bool IsActive { get; set; }
     #endregion
 
-    #region Constructor por defecto necesario para EF Core
+    #region Constructores
     public Product()
     {
 

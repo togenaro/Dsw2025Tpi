@@ -37,38 +37,16 @@ public class OrdersController : ControllerBase
     #endregion
 
     #region Endpoint N°7
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
+    //[AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> GetOrders(
-                                               /*OrderStatus? status,
-                                               Guid? customerId,
-                                               int pageNumber = 1,
-                                               int pageSize = 10*/
-                                               )
+    public async Task<IActionResult> GetOrders()
     {
-        //var filter = new OrderModel.OrderSearchFilter(/*status, customerId, pageNumber, pageSize*/);
         var result = await _service.GetOrders();
-
         if (result is null) return NoContent();
 
         return Ok(result);
     }
-
-    /*public async Task<IActionResult> GetOrders(
-        [FromQuery] OrderStatus? status,
-        [FromQuery] Guid? customerId,
-        [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 10)
-    {
-        var filter = new OrderModel.OrderSearchFilter(status, customerId, pageNumber, pageSize);
-        var result = await _service.GetOrders(filter);
-
-        if (result is null || result.Count == 0)
-            return NoContent();
-
-        return Ok(result);
-    }*/
     #endregion
 
     #region Endpoint N°8

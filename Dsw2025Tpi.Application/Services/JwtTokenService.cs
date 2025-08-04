@@ -19,19 +19,26 @@ public class JwtTokenService
         _config = config;
     }
 
-    public string GenerateToken(string username, IEnumerable<string>? roles = null)
+    public string GenerateToken(string username, IEnumerable<string> roles)
     {
         var jwtConfig = _config.GetSection("Jwt");
         var keyText = jwtConfig["Key"] ?? throw new ArgumentNullException("Jwt Key");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyText));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, username),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(roles != null && roles.Any() ? ClaimTypes.Role : string.Empty, string.Join(",", roles ?? Array.Empty<string>()))
         };
+
+        if (roles != null)
+        {
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+        }
 
         var token = new JwtSecurityToken(
             issuer: jwtConfig["Issuer"],

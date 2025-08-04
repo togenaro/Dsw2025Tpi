@@ -27,7 +27,8 @@ public class ProductsManagementService
         }
 
         var exist = await _repository.First<Product>(p => p.Sku == request.Sku);
-        if (exist != null) throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
+        if (exist != null) 
+            throw new DuplicatedEntityException($"Ya existe un producto con el Sku {request.Sku}");
 
         var product = new Product
         (

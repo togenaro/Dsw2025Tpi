@@ -173,6 +173,9 @@ public class OrderManagementService
         if (!Enum.TryParse<OrderStatus>(newStatus, true, out var parsedStatus))
             throw new ArgumentException("Estado de orden no válido.");
 
+        if (order.Status == parsedStatus)
+            throw new SameStateException("El estado de la orden ya es el mismo que se intenta establecer.");
+
         order.Status = parsedStatus;
         await _repository.Update(order);
 
