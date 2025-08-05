@@ -18,7 +18,6 @@ public class AuthenticateController : ControllerBase
         JwtTokenService jwtTokenService)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
         _jwtTokenService = jwtTokenService;
     }
 
@@ -26,7 +25,7 @@ public class AuthenticateController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginModel request)
     {
         var user = await _userManager.FindByNameAsync(request.Username);
-        if (user == null) return Unauthorized("Usuario no encontrado");
+        if (user is null) return Unauthorized("Usuario no encontrado");
 
         if(_userManager.CheckPasswordAsync(user, request.Password).Result == false)
             return Unauthorized("Contraseña incorrecta");

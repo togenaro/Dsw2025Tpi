@@ -19,7 +19,7 @@ public class JwtTokenService
         _config = config;
     }
 
-    public string GenerateToken(string username, IEnumerable<string> roles)
+    public string GenerateToken(string username, IEnumerable<string> roles = null!)
     {
         var jwtConfig = _config.GetSection("Jwt");
         var keyText = jwtConfig["Key"] ?? throw new ArgumentNullException("Jwt Key");
