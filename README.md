@@ -46,7 +46,7 @@ A partir del relevamiento de requisitos, se definieron las siguientes funcionali
 
 1. **Clonar el repositorio**
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone https://github.com/togenaro/Dsw2025Tpi.git
    ```
 
 2. **Configurar la base de datos**
@@ -96,13 +96,3 @@ A partir del relevamiento de requisitos, se definieron las siguientes funcionali
 - **POST** `/` → Agrega un nuevo producto.
 - **PUT** `/{id}` → Modifica un producto existente.
 - **DELETE** `/{id}` → Elimina un producto.
-
----
-
-## 📄 Alcance para el Primer Parcial
-> Del documento de especificación, se implementa el apartado **"IMPLEMENTACIÓN"** hasta el punto **6** (inclusive).
-
----
-
-## 📎 Documentación del Proyecto
-[Documento completo de especificación](https://frtutneduar.sharepoint.com/:b:/s/DSW2025/ETueAd4rTe1Gilj_Yfi64RYB5oz9s2dOamxKSfMFPREbiA?e=azZcwg)
