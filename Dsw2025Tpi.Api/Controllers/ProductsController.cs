@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dsw2025Tpi.Api.Controllers;
 
 [ApiController]
-[Authorize]
+[AllowAnonymous]
 [Route("api/products")]
 public class ProductsController : ControllerBase
 {
