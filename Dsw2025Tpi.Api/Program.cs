@@ -4,6 +4,7 @@ using Dsw2025Tpi.Application.Services;
 using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Data.Repositories;
 using Dsw2025Tpi.Domain.Interfaces;
+using Dsw2025Tpi.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
-
-
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -59,8 +57,6 @@ public class Program
                     }
                 });
         });
-
-
 
         builder.Services.AddHealthChecks();
         builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -114,12 +110,9 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
-        app.UseMiddleware<Dsw2025Tpi.Api.Middlewares.ExceptionHandlingMiddleware>();
-
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseAuthentication();
         app.UseAuthorization();
-
         app.MapControllers();
         
         app.MapHealthChecks("/healthcheck");

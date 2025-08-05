@@ -3,50 +3,49 @@ using System.Net;
 using System.Text.Json;
 
 
-namespace Dsw2025Tpi.Api.Middlewares
+namespace Dsw2025Tpi.Api.Middlewares;
+
+public class ExceptionHandlingMiddleware
 {
-    public class ExceptionHandlingMiddleware
+    private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+
+    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+        _next = next;
+        _logger = logger;
+    }
 
-        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public async Task Invoke(HttpContext context)
+    {
+        try
         {
-            _next = next;
-            _logger = logger;
+            await _next(context);
         }
-
-        public async Task Invoke(HttpContext context)
+        catch(Exception ex)
         {
-            try
+            _logger.LogError(ex, "Excepción no controlada en: {Path}", context.Request.Path);
+
+            context.Response.ContentType = "application/json";
+
+            context.Response.StatusCode = ex switch
             {
-                await _next(context); // Deja que la request siga su curso
-            }
-            catch (Exception ex)
+                EntityNotFoundException => (int)HttpStatusCode.NotFound,
+                InactiveEntityException => (int)HttpStatusCode.UnprocessableEntity,
+                SameStateException => (int)HttpStatusCode.UnprocessableEntity,
+                ArgumentException => (int)HttpStatusCode.BadRequest,
+                InvalidOperationException => (int)HttpStatusCode.BadRequest,
+                DuplicatedEntityException => (int)HttpStatusCode.Conflict,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
+            var response = new
             {
-                _logger.LogError(ex, "Ocurrió una excepción no controlada");
-                context.Response.ContentType = "application/json";
+                error = ex.Message
+            };
 
-                context.Response.StatusCode = ex switch
-                {
-                    //AppException => (int)HttpStatusCode.BadRequest,
-                    EntityNotFoundException => (int)HttpStatusCode.NotFound,
-                    InactiveEntityException => (int)HttpStatusCode.UnprocessableEntity,
-                    SameStateException => (int)HttpStatusCode.UnprocessableEntity,
-                    ArgumentException => (int)HttpStatusCode.BadRequest,
-                    InvalidOperationException => (int)HttpStatusCode.BadRequest,
-                    DuplicatedEntityException => (int)HttpStatusCode.Conflict,
-                    _ => (int)HttpStatusCode.InternalServerError
-                };
-
-                var response = new
-                {
-                    error = ex.Message
-                };
-
-                var json = JsonSerializer.Serialize(response);
-                await context.Response.WriteAsync(json);
-            }
+            var json = JsonSerializer.Serialize(response); // Serializa el objeto de respuesta a JSON
+            await context.Response.WriteAsync(json); // Escribe el JSON directamente en el cuerpo (Body) de la respuesta HTTP.
         }
     }
 }
