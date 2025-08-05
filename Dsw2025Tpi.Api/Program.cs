@@ -109,8 +109,9 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        app.UseExceptionHandler();
         app.UseMiddleware<ExceptionHandlingMiddleware>();
+        app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();

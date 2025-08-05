@@ -7,7 +7,7 @@ public static class ApplicationServicesExtensions
     public static void SeedRoles(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        var services = scope.ServiceProvider;
+        var services = scope.ServiceProvider;        
 
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
