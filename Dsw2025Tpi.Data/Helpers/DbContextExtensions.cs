@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Dsw2025Tpi.Data;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Dsw2025Tpi.Data.Helpers;
 

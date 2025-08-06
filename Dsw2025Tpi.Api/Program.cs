@@ -32,7 +32,7 @@ public class Program
         {
             o.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Desarrollo de Software",
+                Title = "Trabajo Práctico Integrador",
                 Version = "v1",
             });
             o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -99,6 +99,14 @@ public class Program
         });
 
         builder.Services.AddSingleton<JwtTokenService>();
+        builder.Services.AddAuthorization();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("PermitirFrontend", policy =>
+                policy.WithOrigins("http://localhost:3000")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod());
+        });
 
         var app = builder.Build();
         app.SeedRoles();
@@ -109,9 +117,9 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseExceptionHandler();
         app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
+        app.UseCors("PermitirFrontend");
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();

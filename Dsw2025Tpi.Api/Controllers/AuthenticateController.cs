@@ -10,11 +10,9 @@ namespace Dsw2025Tpi.Api.Controllers;
 public class AuthenticateController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly JwtTokenService _jwtTokenService;
 
     public AuthenticateController(UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
         JwtTokenService jwtTokenService)
     {
         _userManager = userManager;
@@ -27,7 +25,7 @@ public class AuthenticateController : ControllerBase
         var user = await _userManager.FindByNameAsync(request.Username);
         if (user is null) return Unauthorized("Usuario no encontrado");
 
-        if(_userManager.CheckPasswordAsync(user, request.Password).Result == false)
+        if( !(_userManager.CheckPasswordAsync(user, request.Password).Result) )
             return Unauthorized("Contraseña incorrecta");
 
         var roles = await _userManager.GetRolesAsync(user);
