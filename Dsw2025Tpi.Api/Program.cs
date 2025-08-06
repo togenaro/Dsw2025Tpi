@@ -3,6 +3,7 @@ using Dsw2025Tpi.Application.Dtos;
 using Dsw2025Tpi.Application.Services;
 using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Data.Repositories;
+using Dsw2025Tpi.Data.Seeders;
 using Dsw2025Tpi.Domain.Interfaces;
 using Dsw2025Tpi.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,7 +17,7 @@ namespace Dsw2025Tpi.Api;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -92,7 +93,6 @@ public class Program
             };
             });
 
-        builder.Services.AddDomainServices(builder.Configuration);
         builder.Services.AddDbContext<AuthenticateContext>(options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("Dsw2025TpiEntities"));
@@ -109,7 +109,6 @@ public class Program
         });
 
         var app = builder.Build();
-        app.SeedRoles();
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -125,6 +124,13 @@ public class Program
         app.MapControllers();
         
         app.MapHealthChecks("/healthcheck");
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            await IdentitySeeder.SeedRolesAsync(services);
+        }
+
         app.Run();
     }
 }
