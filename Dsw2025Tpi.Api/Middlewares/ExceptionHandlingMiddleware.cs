@@ -2,18 +2,15 @@
 using System.Net;
 using System.Text.Json;
 
-
 namespace Dsw2025Tpi.Api.Middlewares;
 
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public ExceptionHandlingMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
@@ -24,8 +21,6 @@ public class ExceptionHandlingMiddleware
         }
         catch(Exception ex)
         {
-            _logger.LogError(ex, "Excepción no controlada en: {Path}", context.Request.Path);
-
             context.Response.ContentType = "application/json";
 
             context.Response.StatusCode = ex switch
@@ -36,6 +31,7 @@ public class ExceptionHandlingMiddleware
                 ArgumentException => (int)HttpStatusCode.BadRequest,
                 InvalidOperationException => (int)HttpStatusCode.BadRequest,
                 DuplicatedEntityException => (int)HttpStatusCode.Conflict,
+                UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
                 _ => (int)HttpStatusCode.InternalServerError
             };
 

@@ -14,11 +14,13 @@ namespace Dsw2025Tpi.Application.Services;
 
 public class OrderManagementService
 {
+    #region Inyección de dependencias
     private readonly IRepository _repository;
     public OrderManagementService(IRepository repository)
     {
         _repository = repository;
     }
+    #endregion
 
     public async Task<OrderModel.OrderResponse> CreateOrder(OrderModel.OrderRequest request)
     {

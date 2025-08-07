@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Dsw2025Tpi.Application.Interfaces;
 using Dsw2025Tpi.Application.Services;
 
 namespace Dsw2025Tpi.Api.Controllers;
@@ -13,31 +12,25 @@ namespace Dsw2025Tpi.Api.Controllers;
 public class AdminController : ControllerBase
 {
     #region Inyección de los servicios
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IAdminService _userRoleService;
+    private readonly AdminService _service;
 
-    public AdminController(UserManager<IdentityUser> userManager, 
-        RoleManager<IdentityRole> roleManager,
-        IAdminService userRoleService)
+    public AdminController(AdminService adminManager)
     {
-        _userManager = userManager;
-        _roleManager = roleManager;
-        _userRoleService = userRoleService;
+        _service = adminManager;
     }
     #endregion
 
     [HttpPost("assign-role")]
     public async Task<IActionResult> AssignRole([FromBody] RoleRequest request)
     {
-        var response = await _userRoleService.AssignRole(request);
+        var response = await _service.AssignRole(request);
         return Ok(response);
     }
 
     [HttpPost("remove-role")]
     public async Task<IActionResult> RemoveRole([FromBody] RoleRequest request)
     {
-        var response = await _userRoleService.RemoveRole(request);
+        var response = await _service.RemoveRole(request);
         return Ok(response);
     }
 }

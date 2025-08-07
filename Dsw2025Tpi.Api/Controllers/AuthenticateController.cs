@@ -1,5 +1,4 @@
 ﻿using Dsw2025Tpi.Application.Dtos;
-using Dsw2025Tpi.Application.Interfaces;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,25 +10,25 @@ namespace Dsw2025Tpi.Api.Controllers;
 public class AuthenticateController : ControllerBase
 {
     #region Inyección de servicios
-    private readonly IAuthenticationService _authService;
+    private readonly AuthenticationService _service;
 
-    public AuthenticateController(IAuthenticationService authService)
+    public AuthenticateController(AuthenticationService authService)
     {
-        _authService = authService;
+        _service = authService;
     }
     #endregion
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var res = await _authService.Login(request);
+        var res = await _service.Login(request);
         return Ok(res);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        await _authService.Register(request);
+        await _service.Register(request);
         return Ok("Usuario registrado correctamente");
     }
 }

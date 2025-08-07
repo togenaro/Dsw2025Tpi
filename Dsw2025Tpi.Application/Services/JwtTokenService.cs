@@ -12,12 +12,14 @@ namespace Dsw2025Tpi.Application.Services;
 
 public class JwtTokenService
 {
+    #region Inyección de dependencias
     private readonly IConfiguration _config;
 
     public JwtTokenService(IConfiguration config)
     {
         _config = config;
     }
+    #endregion
 
     public string GenerateToken(string username, IEnumerable<string> roles = null!)
     {

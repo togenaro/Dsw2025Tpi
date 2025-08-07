@@ -5,7 +5,6 @@ using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Data.Repositories;
 using Dsw2025Tpi.Data.Seeders;
 using Dsw2025Tpi.Domain.Interfaces;
-using Dsw2025Tpi.Application.Interfaces;
 using Dsw2025Tpi.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -28,8 +27,6 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddDomainServices(builder.Configuration);
-
-        //builder.Services.AddSingleton<IRepository, InMemoryRepository>();
 
         builder.Services.AddSwaggerGen(o =>
         {
@@ -68,7 +65,6 @@ public class Program
             {
                 RequiredLength = 8
             };
-
         })
             .AddEntityFrameworkStores<AuthenticateContext>()
             .AddDefaultTokenProviders();
@@ -101,8 +97,8 @@ public class Program
         });
 
         builder.Services.AddSingleton<JwtTokenService>();
-        builder.Services.AddScoped<IAdminService, AdminService>();
-        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<AdminService>();
+        builder.Services.AddScoped<AuthenticationService>();
         builder.Services.AddAuthorization();
         builder.Services.AddCors(options =>
         {
@@ -126,7 +122,7 @@ public class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
-        
+
         app.MapHealthChecks("/healthcheck");
 
         using (var scope = app.Services.CreateScope())

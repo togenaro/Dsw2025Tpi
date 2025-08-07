@@ -26,6 +26,7 @@ public static class DomainServicesConfigurationExtension
             });
         });
 
+        //services.AddScoped<IRepository, InMemoryRepository>();
         services.AddScoped<IRepository, EfRepository>();
         services.AddTransient<ProductsManagementService>();
         services.AddTransient<OrderManagementService>();

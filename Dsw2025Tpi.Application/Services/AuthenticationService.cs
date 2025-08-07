@@ -1,5 +1,4 @@
-﻿using Dsw2025Tpi.Application.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using Dsw2025Tpi.Application.Dtos;
 
 namespace Dsw2025Tpi.Application.Services;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService
 {
     #region Inyección de los servicios   
     private readonly UserManager<IdentityUser> _userManager;

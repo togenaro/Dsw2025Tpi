@@ -13,7 +13,6 @@ public static class IdentitySeeder
     public static async Task SeedRolesAsync(IServiceProvider provider)
     {
         var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
-        var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
 
         string[] roles = { "Admin", "User" };
 
@@ -22,6 +21,5 @@ public static class IdentitySeeder
             if (!await roleManager.RoleExistsAsync(r))
                 await roleManager.CreateAsync(new IdentityRole(r));
         }
-
     }
 }
