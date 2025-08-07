@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace Dsw2025Tpi.Api.Controllers;
 
 [ApiController]
-[AllowAnonymous]
 [Route("api/orders")]
 public class OrdersController : ControllerBase
 {

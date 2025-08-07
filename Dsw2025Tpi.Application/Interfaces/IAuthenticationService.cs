@@ -9,7 +9,7 @@ namespace Dsw2025Tpi.Application.Interfaces;
 
 public interface IAuthenticationService
 {
-    public Task<LoginResponse> LoginAsync(LoginRequest request);
+    public Task<LoginResponse> Login(LoginRequest request);
 
-    public Task RegisterAsync(RegisterRequest request);
+    public Task Register(RegisterRequest request);
 }

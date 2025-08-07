@@ -15,11 +15,11 @@ public class AdminController : ControllerBase
     #region Inyección de los servicios
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IUserRoleService _userRoleService;
+    private readonly IAdminService _userRoleService;
 
     public AdminController(UserManager<IdentityUser> userManager, 
         RoleManager<IdentityRole> roleManager,
-        IUserRoleService userRoleService)
+        IAdminService userRoleService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
@@ -28,10 +28,16 @@ public class AdminController : ControllerBase
     #endregion
 
     [HttpPost("assign-role")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> AssignRoleAsync([FromBody] RoleRequest request)
+    public async Task<IActionResult> AssignRole([FromBody] RoleRequest request)
     {
-        var response = await _userRoleService.AssignRoleAsync(request);
+        var response = await _userRoleService.AssignRole(request);
+        return Ok(response);
+    }
+
+    [HttpPost("remove-role")]
+    public async Task<IActionResult> RemoveRole([FromBody] RoleRequest request)
+    {
+        var response = await _userRoleService.RemoveRole(request);
         return Ok(response);
     }
 }

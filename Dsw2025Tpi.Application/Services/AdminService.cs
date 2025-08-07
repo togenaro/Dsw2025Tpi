@@ -9,26 +9,24 @@ using Dsw2025Tpi.Application.Dtos;
 
 namespace Dsw2025Tpi.Application.Services;
 
-public class UserRoleService : IUserRoleService
+public class AdminService : IAdminService
 {
     #region Inyección de dependencias
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserRoleService(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
+    public AdminService(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
     {
         _userManager = um;
         _roleManager = rm;
     }
     #endregion
 
-    public async Task<RoleResponse> AssignRoleAsync(RoleRequest request)
+    public async Task<RoleResponse> AssignRole(RoleRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Username))
-            throw new ArgumentException("Username vacío.");
-
-        if (string.IsNullOrWhiteSpace(request.Role))
-            throw new ArgumentException("Role vacío.");
+        if(string.IsNullOrWhiteSpace(request.Username) ||
+           string.IsNullOrWhiteSpace(request.Role))
+            throw new ArgumentException("Datos incompletos.");
 
         var user = await _userManager.FindByNameAsync(request.Username);
         if (user is null)
@@ -51,13 +49,11 @@ public class UserRoleService : IUserRoleService
         );
     }
 
-    public async Task<RoleResponse> RemoveRoleAsync(RoleRequest request)
+    public async Task<RoleResponse> RemoveRole(RoleRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Username))
-            throw new ArgumentException("Username vacío.");
-
-        if (string.IsNullOrWhiteSpace(request.Role))
-            throw new ArgumentException("Role vacío.");
+        if (string.IsNullOrWhiteSpace(request.Username) ||
+            string.IsNullOrWhiteSpace(request.Role))
+            throw new ArgumentException("Datos incorrectos.");
 
         var user = await _userManager.FindByNameAsync(request.Username);
         if (user is null)
@@ -78,5 +74,10 @@ public class UserRoleService : IUserRoleService
             user.UserName!,
             _userManager.GetRolesAsync(user).Result.FirstOrDefault() ?? string.Empty
         );
-    }   
+    }
+
+    public Task<RoleResponse> CreateRole(string roleName)
+    {
+        throw new NotImplementedException();
+    }
 }

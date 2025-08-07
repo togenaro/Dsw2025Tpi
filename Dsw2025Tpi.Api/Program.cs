@@ -101,7 +101,7 @@ public class Program
         });
 
         builder.Services.AddSingleton<JwtTokenService>();
-        builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+        builder.Services.AddScoped<IAdminService, AdminService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddAuthorization();
         builder.Services.AddCors(options =>

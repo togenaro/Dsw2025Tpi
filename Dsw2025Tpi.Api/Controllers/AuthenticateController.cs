@@ -22,14 +22,14 @@ public class AuthenticateController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var res = await _authService.LoginAsync(request);
+        var res = await _authService.Login(request);
         return Ok(res);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        await _authService.RegisterAsync(request);
+        await _authService.Register(request);
         return Ok("Usuario registrado correctamente");
     }
 }

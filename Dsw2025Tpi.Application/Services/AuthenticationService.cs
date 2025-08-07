@@ -11,6 +11,7 @@ namespace Dsw2025Tpi.Application.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
+    #region Inyección de los servicios   
     private readonly UserManager<IdentityUser> _userManager;
     private readonly JwtTokenService _jwt;
 
@@ -19,9 +20,14 @@ public class AuthenticationService : IAuthenticationService
         _userManager = um;
         _jwt = jwt;
     }
+    #endregion
 
-    public async Task<LoginResponse> LoginAsync(LoginRequest request)
+    public async Task<LoginResponse> Login(LoginRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Username) || 
+            string.IsNullOrWhiteSpace(request.Password))
+            throw new ArgumentException("Datos incompletos.");
+
         var user = await _userManager.FindByNameAsync(request.Username)
             ?? throw new UnauthorizedAccessException("Usuario no encontrado");
 
@@ -39,14 +45,12 @@ public class AuthenticationService : IAuthenticationService
         );
     }
 
-    public async Task RegisterAsync(RegisterRequest request)
+    public async Task Register(RegisterRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Username) || 
             string.IsNullOrWhiteSpace(request.Email) || 
             string.IsNullOrWhiteSpace(request.Password))
-        {
             throw new ArgumentException("Datos incompletos.");
-        }
             
         var user = new IdentityUser { UserName = request.Username, Email = request.Email };
         var result = await _userManager.CreateAsync(user, request.Password);

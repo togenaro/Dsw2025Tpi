@@ -8,12 +8,14 @@ namespace Dsw2025Tpi.Application.Services;
 
 public class ProductsManagementService
 {
+    #region Inyección de dependencias
     private readonly IRepository _repository;
 
     public ProductsManagementService(IRepository repository)
     {
         _repository = repository;
     }
+    #endregion
 
     public async Task<ProductModel.ProductResponse> AddProduct(ProductModel.ProductRequest request)
     {
