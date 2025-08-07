@@ -5,6 +5,7 @@ using Dsw2025Tpi.Data;
 using Dsw2025Tpi.Data.Repositories;
 using Dsw2025Tpi.Data.Seeders;
 using Dsw2025Tpi.Domain.Interfaces;
+using Dsw2025Tpi.Application.Interfaces;
 using Dsw2025Tpi.Api.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+
 
 namespace Dsw2025Tpi.Api;
 
@@ -99,6 +101,8 @@ public class Program
         });
 
         builder.Services.AddSingleton<JwtTokenService>();
+        builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddAuthorization();
         builder.Services.AddCors(options =>
         {

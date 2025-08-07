@@ -1,4 +1,5 @@
 ﻿using Dsw2025Tpi.Application.Dtos;
+using Dsw2025Tpi.Application.Interfaces;
 using Dsw2025Tpi.Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,46 +10,26 @@ namespace Dsw2025Tpi.Api.Controllers;
 [Route("api/authenticate")]
 public class AuthenticateController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly JwtTokenService _jwtTokenService;
+    #region Inyección de servicios
+    private readonly IAuthenticationService _authService;
 
-    public AuthenticateController(UserManager<IdentityUser> userManager,
-        JwtTokenService jwtTokenService)
+    public AuthenticateController(IAuthenticationService authService)
     {
-        _userManager = userManager;
-        _jwtTokenService = jwtTokenService;
+        _authService = authService;
     }
+    #endregion
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginModel request)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var user = await _userManager.FindByNameAsync(request.Username);
-        if (user is null) return Unauthorized("Usuario no encontrado");
-
-        if( !(_userManager.CheckPasswordAsync(user, request.Password).Result) )
-            return Unauthorized("Contraseña incorrecta");
-
-        var roles = await _userManager.GetRolesAsync(user);
-        var token = _jwtTokenService.GenerateToken(user.UserName!, roles);
-        return Ok(new
-        {
-            token,
-            username = user.UserName,
-            roles
-        });
+        var res = await _authService.LoginAsync(request);
+        return Ok(res);
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterModel model)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        var user = new IdentityUser { UserName = model.Username, Email = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
-
-        if (!result.Succeeded)
-            return BadRequest(result.Errors);
-
-        // Opcional: enviar email de confirmación, etc.
-        return Ok("Usuario registrado correctamente.");
+        await _authService.RegisterAsync(request);
+        return Ok("Usuario registrado correctamente");
     }
-
 }
