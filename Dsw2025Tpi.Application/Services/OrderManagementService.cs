@@ -9,6 +9,7 @@ using Dsw2025Tpi.Application.Exceptions;
 using Dsw2025Tpi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Azure.Core;
+using System.ComponentModel;
 
 namespace Dsw2025Tpi.Application.Services;
 
@@ -29,7 +30,6 @@ public class OrderManagementService
             string.IsNullOrWhiteSpace(request.ShippingAddress) ||
             string.IsNullOrWhiteSpace(request.BillingAddress) ||
             string.IsNullOrWhiteSpace(request.OrderItems.ToString())
-            // ... queda pendiente la validación para la lista de productos en la orden
             )
         {
             throw new ArgumentException("Valores para la orden no válidos");

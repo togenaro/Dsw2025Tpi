@@ -100,13 +100,13 @@ public class Program
         builder.Services.AddScoped<AdminService>();
         builder.Services.AddScoped<AuthenticationService>();
         builder.Services.AddAuthorization();
-        builder.Services.AddCors(options =>
+        /*builder.Services.AddCors(options =>
         {
             options.AddPolicy("PermitirFrontend", policy =>
                 policy.WithOrigins("http://localhost:3000")
                       .AllowAnyHeader()
                       .AllowAnyMethod());
-        });
+        });*/
 
         var app = builder.Build();
         // Configure the HTTP request pipeline.
@@ -115,13 +115,13 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
         app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseHttpsRedirection();
-        app.UseCors("PermitirFrontend");
+        /*app.UseCors("PermitirFrontend");*/
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
+        
 
         app.MapHealthChecks("/healthcheck");
 
